@@ -20,8 +20,7 @@ public class App1 {
         while (true){
             Console.print(PS1);
             String input = userScanner.nextLine();
-            input = input + " placeholderArg";
-            client.sendRequest(input);
+            client.sendRequest(input +" placeholderArg");
         }
     }
 }

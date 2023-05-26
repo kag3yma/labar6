@@ -33,27 +33,14 @@ public class AddIfMinCommand extends AbstractCommand {
     @Override
     public void execute(Request request) {
         if (argCheck(request.getArguments())) {
-            try {
-
-                SpaceMarine marineToAdd = new SpaceMarine(
-                        collectionHandler.generateNextId(),
-                        marineAsker.askName(),
-                        LocalDateTime.now(),
-                        marineAsker.askCoordinates(),
-                        marineAsker.askHealth(),
-                        marineAsker.askHeight(),
-                        marineAsker.askWeaponType(),
-                        marineAsker.askMeleeWeapon(),
-                        marineAsker.askChapter()
-                );
-                if (collectionHandler.collectionSize() == 0 ||
-                        marineToAdd.healthCompareTo(collectionHandler.getById(collectionHandler.getMin())) < 0) {
-                    collectionHandler.addToCollection(marineToAdd);
-                    Console.println("Soldier successfully added!");
+            SpaceMarine spaceMarine = request.getSpaceMarine();
+            spaceMarine.setId(collectionHandler.generateNextId());
+            if (collectionHandler.collectionSize() == 0 ||
+                    spaceMarine.healthCompareTo(collectionHandler.getById(collectionHandler.getMin())) < 0) {
+                collectionHandler.addToCollection(spaceMarine);
+                Console.println("Soldier successfully added!");
                 } else
                     Console.printerror("The value of the soldier is greater than the value of the smallest of the soldiers!");
-            } catch (IncorrectInputInScriptException exception) {
             }
         }
     }
-}

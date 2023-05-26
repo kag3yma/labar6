@@ -30,8 +30,7 @@ public class MarineAsker {
     }
 
     public SpaceMarine MarineCreator() {
-        try{
-        return new SpaceMarine(
+        try{if(askWantChapter()) {return new SpaceMarine(
                 0L,
                 askName(),
                 LocalDateTime.now(),
@@ -40,7 +39,16 @@ public class MarineAsker {
                 askHeight(),
                 askWeaponType(),
                 askMeleeWeapon(),
-                askChapter());}catch (IncorrectInputInScriptException e){
+                askChapter());} else {return new SpaceMarine(
+                0L,
+                askName(),
+                LocalDateTime.now(),
+                askCoordinates(),
+                askHealth(),
+                askHeight(),
+                askWeaponType(),
+                askMeleeWeapon(),
+                null);}}catch (IncorrectInputInScriptException e){
             Console.printerror("Incorrect input");
         }
     return null;}
@@ -324,7 +332,7 @@ public class MarineAsker {
         int marinesCount;
         while (true) {
             try {
-                Console.println("Enter the number of soldiers in the order less " + (MAX_MARINES + 1) + " and more " + MIN_MARINES + ":");
+                Console.println("Enter the number of soldiers in the order less " + (MAX_MARINES + 1) + " and more " + (MIN_MARINES-1) + ":");
                 Console.print(App1.PS2);
                 strMarinesCount = userScanner.nextLine().trim();
                 if (fileMode) Console.println(strMarinesCount);

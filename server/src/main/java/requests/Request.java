@@ -5,13 +5,13 @@ import utils.MarineAsker;
 
 public class Request implements Serializable {
     private String commandname;
-    private String arguments;
+    private String argument;
     private SpaceMarine spaceMarine;
     static final long serialVersionUID = 1L;
 
     public Request(String commandname, String argument, SpaceMarine spaceMarine){
         this.commandname = commandname;
-        this.arguments = argument;
+        this.argument = argument;
         this.spaceMarine = spaceMarine;
     }
 
@@ -19,7 +19,7 @@ public class Request implements Serializable {
         return commandname;
     }
     public String getArguments(){
-        return arguments;
+        return argument;
     }
 
     public SpaceMarine getSpaceMarine() {

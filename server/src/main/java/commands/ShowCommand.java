@@ -39,8 +39,8 @@ public class ShowCommand extends AbstractCommand {
         if (argCheck(request.getArguments())){
             try{
                 PrintWriter output = new PrintWriter(server.getClientSocket().getOutputStream(), true);
-                System.out.println(output);
-                System.out.println(collectionHandler);
+                output.println(output);
+                output.println(collectionHandler);
             } catch (IOException ioe){
                 Console.println(ioe.getMessage());
             }

@@ -305,7 +305,7 @@ public class MarineAsker {
         int marinesCount;
         while (true) {
             try {
-                Console.println("Enter the number of soldiers in the order less " + (MAX_MARINES + 1) + " and more " + MIN_MARINES + ":");
+                Console.println("Enter the number of soldiers in the order less " + (MAX_MARINES + 1) + " and more " + (MIN_MARINES - 1) +":");
                 Console.print(App.PS2);
                 strMarinesCount = userScanner.nextLine().trim();
                 if (fileMode) Console.println(strMarinesCount);

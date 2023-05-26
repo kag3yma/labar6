@@ -9,6 +9,7 @@ import utils.CollectionHandler;
 import utils.Console;
 import utils.MarineAsker;
 
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 
 public class AddCommand extends AbstractCommand {
@@ -34,37 +35,9 @@ public class AddCommand extends AbstractCommand {
     @Override
     public void execute(Request request) {
         if (argCheck(request.getArguments())) {
-        try {
-
-            boolean solution = marineAsker.askWantChapter();
-            if (solution){
-                collectionHandler.addToCollection(new SpaceMarine(
-                        collectionHandler.generateNextId(),
-                        marineAsker.askName(),
-                        LocalDateTime.now(),
-                        marineAsker.askCoordinates(),
-                        marineAsker.askHealth(),
-                        marineAsker.askHeight(),
-                        marineAsker.askWeaponType(),
-                        marineAsker.askMeleeWeapon(),
-                        marineAsker.askChapter()
-                ));
-                Console.println("Soldier successfully added!");
-                }
-            if (!solution){
-                collectionHandler.addToCollection(new SpaceMarine(
-                        collectionHandler.generateNextId(),
-                        marineAsker.askName(),
-                        LocalDateTime.now(),
-                        marineAsker.askCoordinates(),
-                        marineAsker.askHealth(),
-                        marineAsker.askHeight(),
-                        marineAsker.askWeaponType(),
-                        marineAsker.askMeleeWeapon()
-                ));
-                Console.println("Soldier successfully added!");
-                }
-        }  catch (IncorrectInputInScriptException exception) {}
+            SpaceMarine spaceMarine = request.getSpaceMarine();
+            spaceMarine.setId(collectionHandler.generateNextId());
+            collectionHandler.addToCollection(spaceMarine);
     }
     }
 }

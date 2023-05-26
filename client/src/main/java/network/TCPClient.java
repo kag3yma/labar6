@@ -69,7 +69,7 @@ public class TCPClient {
         }
 
         if (connectToServer()){
-            ObjectOutput objectOutput = new ObjectOutputStream(this.clientSocket.socket().getOutputStream());
+            ObjectOutputStream objectOutput = new ObjectOutputStream(this.clientSocket.socket().getOutputStream());
             InputStream in = new BufferedInputStream(clientSocket.socket().getInputStream());
             if (command.equals("add") || command.equals("update") || command.equals("add_if_max")
             || command.equals("add_if_min")){

@@ -28,7 +28,7 @@ public class ExecuteScriptCommand extends AbstractCommand {
             if(arg.equals("placeholderArg")) throw new ElementAmountException();
             return true;
         } catch (ElementAmountException e) {
-            Console.printerror("Invalid number of arguments");
+            Console.printerror("Invalid count of arguments");
         }
         return false;
     }

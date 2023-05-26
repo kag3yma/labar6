@@ -10,9 +10,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-/**
- * Класс отвечающий за команду execute_script {script-name}
- */
 public class ExecuteScriptCommand extends AbstractCommand {
     private HashMap<String, String> map;
     private TCPClient client;
@@ -40,8 +37,11 @@ public class ExecuteScriptCommand extends AbstractCommand {
                     throw new RecursionException();
                 }
             }
-        } catch (Exception re){
-            Console.printerror("Very bad recursion, i am sad about it((");
+        } catch (RecursionException re){
+            Console.printerror("Infinity recursion");
+            return false;
+        }catch (IOException re){
+            Console.printerror("IO Exception");
             return false;
         }
         return true;
@@ -60,12 +60,12 @@ public class ExecuteScriptCommand extends AbstractCommand {
                         try {
                             client.sendRequest(command);
                         } catch (InterruptedException ie){
-                            Console.println(ie.getMessage());
+                            Console.printerror(ie.getMessage());
                         }
                     }
                 }
             } catch (IOException e) {
-                Console.println(e.getMessage());
+                Console.printerror(e.getMessage());
             }
         }
     }

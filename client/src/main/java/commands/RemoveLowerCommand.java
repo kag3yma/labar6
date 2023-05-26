@@ -14,7 +14,7 @@ public class RemoveLowerCommand extends AbstractCommand {
 
 
     public RemoveLowerCommand() {
-        super("remove_greater", " remove from the collection all elements smaller than the given one");
+        super("remove_lower", " remove from the collection all elements smaller than the given one");
     }
 
     @Override

@@ -18,7 +18,7 @@ public class RemoveByIdCommand extends AbstractCommand {
     }
     public boolean argCheck(String arg){
         try{
-            if(arg == "placeholderArg") throw new ElementAmountException();
+            if(arg.equals("placeholderArg")) throw new ElementAmountException();
             Integer.parseInt(arg);
 
             return true;

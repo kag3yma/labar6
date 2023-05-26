@@ -25,4 +25,8 @@ public class Request implements Serializable {
     public SpaceMarine getSpaceMarine() {
         return spaceMarine;
     }
+    public void writeArg(){
+        System.out.println(commandname);
+        System.out.println(argument);
+    }
 }

@@ -53,6 +53,7 @@ public class TCPServer{
     private boolean processRequest(HashMap<String, Command> map) throws IOException, ClassNotFoundException {
         ObjectInput objectInput = new ObjectInputStream(clientSocket.socket().getInputStream());
         Request request = (Request) objectInput.readObject();
+        request.writeArg();
         if(map.containsKey(request.getCommandName())){
             map.get(request.getCommandName()).execute(request);
         } else {

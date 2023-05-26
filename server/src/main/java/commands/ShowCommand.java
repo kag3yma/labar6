@@ -21,7 +21,8 @@ public class ShowCommand extends AbstractCommand {
     }
     public boolean argCheck(String arg){
         try{
-            if(arg != "placeholderArg") throw new ElementAmountException();
+            System.out.println(arg);
+            if(!arg.equals("placeholderArg")) throw new ElementAmountException();
             return true;
         } catch (ElementAmountException e) {
             try{

@@ -26,10 +26,8 @@ public class RemoveLowerCommand extends AbstractCommand {
             return true;
         } catch (ElementAmountException e) {
             Console.printerror("Wrong number of arguments");
-        } catch (NumberFormatException ex) {
-            Console.printerror("Enter number");
-        }
         return false;
     }
+}
 }
 

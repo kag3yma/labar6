@@ -14,7 +14,7 @@ public class UpdateCommand extends AbstractCommand {
     private MarineAsker marineAsker;
 
     public UpdateCommand(CollectionHandler collectionHandler, MarineAsker marineAsker) {
-        super("update <ID> {element}", "update collection element value by ID");
+        super("update", "update collection element value by ID");
         this.collectionHandler = collectionHandler;
         this.marineAsker = marineAsker;
     }

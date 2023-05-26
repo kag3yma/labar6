@@ -16,7 +16,7 @@ public class CountGreaterThanMeleeWeaponCommand extends AbstractCommand {
     private TCPServer server;
 
     public CountGreaterThanMeleeWeaponCommand(CollectionHandler collectionHandler, TCPServer server) {
-        super("count_greater_than_melee_weapon meleeWeapon", "   print the number of elements, " +
+        super("count_greater_than_melee_weapon", "   print the number of elements, " +
                 "the value of the meleeWeapon field is greater than the given one");
         this.collectionHandler = collectionHandler;
         this.server = server;

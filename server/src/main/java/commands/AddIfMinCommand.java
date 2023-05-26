@@ -16,7 +16,7 @@ public class AddIfMinCommand extends AbstractCommand {
     private MarineAsker marineAsker;
 
     public AddIfMinCommand(CollectionHandler collectionHandler, MarineAsker marineAsker) {
-        super("add_if_min {element}", "add a new element if its value is less than that of the smallest");
+        super("add_if_min", "add a new element if its value is less than that of the smallest");
         this.collectionHandler = collectionHandler;
         this.marineAsker = marineAsker;
     }

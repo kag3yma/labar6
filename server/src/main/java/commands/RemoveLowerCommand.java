@@ -16,7 +16,7 @@ public class RemoveLowerCommand extends AbstractCommand {
     private MarineAsker marineAsker;
 
     public RemoveLowerCommand(CollectionHandler collectionHandler, MarineAsker marineAsker) {
-        super("remove_lower {element}", "remove from the collection all elements smaller than the given one");
+        super("remove_lower", "remove from the collection all elements smaller than the given one");
         this.collectionHandler = collectionHandler;
         this.marineAsker = marineAsker;
     }

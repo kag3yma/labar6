@@ -16,7 +16,7 @@ public class FilterStartsWithNameCommand extends AbstractCommand {
     private TCPServer server;
 
     public FilterStartsWithNameCommand(CollectionHandler collectionHandler, TCPServer server) {
-        super("filter_starts_with_name name", "display elements whose name field value starts with the given substring");
+        super("filter_starts_with_name", "display elements whose name field value starts with the given substring");
         this.collectionHandler = collectionHandler;
         this.server = server;
     }

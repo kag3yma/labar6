@@ -7,6 +7,8 @@ import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
 
@@ -32,18 +34,21 @@ public class InfoCommand extends AbstractCommand {
     @Override
     public void execute(Request request) {
         if(argCheck(request.getArguments())){
-            FileTime lastInitTime = collectionHandler.getInitDateTime();
-            String lastInitTimeString = (lastInitTime == null) ? "initialization has not yet taken place in this session" :
-                    lastInitTime.toString();
+            try {
+                PrintWriter output = new PrintWriter(server.getClientSocket().getOutputStream(), true);
+                FileTime lastInitTime = collectionHandler.getInitDateTime();
+                String lastInitTimeString = (lastInitTime == null) ? "initialization has not yet taken place in this session" :
+                        lastInitTime.toString();
 
-            LocalDateTime lastSaveTime = collectionHandler.getLastSaveTime();
-            String lastSaveTimeString = (lastSaveTime == null) ? "this session has not yet been saved" :
-                    lastSaveTime.toLocalDate().toString() + " " + lastSaveTime.toLocalTime().toString();
+                LocalDateTime lastSaveTime = collectionHandler.getLastSaveTime();
+                String lastSaveTimeString = (lastSaveTime == null) ? "this session has not yet been saved" :
+                        lastSaveTime.toLocalDate().toString() + " " + lastSaveTime.toLocalTime().toString();
 
-            System.out.println("Collection details:");
-            System.out.println(" Type: " + collectionHandler.collectionType());
-            System.out.println(" Amount of elements: " + collectionHandler.collectionSize());
-            System.out.println(" Last save date: " + lastSaveTimeString);
-            System.out.println(" Date of last initialization: " + lastInitTimeString);
+                output.println("Collection details:");
+                output.println(" Type: " + collectionHandler.collectionType());
+                output.println(" Amount of elements: " + collectionHandler.collectionSize());
+                output.println(" Last save date: " + lastSaveTimeString);
+                output.println(" Date of last initialization: " + lastInitTimeString);
+            }catch (IOException e){ Console.printerror(e.getMessage());}
     }}
 }

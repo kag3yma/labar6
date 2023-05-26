@@ -17,7 +17,7 @@ public class AddCommand extends AbstractCommand {
     private MarineAsker marineAsker;
 
     public AddCommand(CollectionHandler collectionHandler, MarineAsker marineAsker) {
-        super("add {element}", "add a new element to the collection");
+        super("add", "add a new element to the collection");
         this.collectionHandler = collectionHandler;
         this.marineAsker = marineAsker;
     }

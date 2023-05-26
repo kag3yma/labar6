@@ -16,7 +16,7 @@ public class AddIfMaxCommand extends AbstractCommand {
     private MarineAsker marineAsker;
 
     public AddIfMaxCommand(CollectionHandler collectionHandler, MarineAsker marineAsker) {
-        super("add_if_max {element}", "add a new element to the collection, " +
+        super("add_if_max", "add a new element to the collection, " +
                 "if its value is greater than the value of the largest element of this collection");
         this.collectionHandler = collectionHandler;
         this.marineAsker = marineAsker;

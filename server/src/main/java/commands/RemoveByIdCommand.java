@@ -13,7 +13,7 @@ public class RemoveByIdCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
 
     public RemoveByIdCommand(CollectionHandler collectionHandler) {
-        super("remove_by_id <ID>", "remove item from collection by ID");
+        super("remove_by_id", "remove item from collection by ID");
         this.collectionHandler = collectionHandler;
     }
     public boolean argCheck(String arg){

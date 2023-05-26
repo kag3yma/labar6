@@ -21,8 +21,6 @@ public class RemoveLowerCommand extends AbstractCommand {
     public boolean argCheck(String arg){
         try{
             if(!arg.equals("placeholderArg")) throw new ElementAmountException();
-            Integer.parseInt(arg);
-
             return true;
         } catch (ElementAmountException e) {
             Console.printerror("Wrong number of arguments");

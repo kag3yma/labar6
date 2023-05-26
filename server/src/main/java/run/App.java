@@ -25,14 +25,14 @@ public class App {
         Command show = new ShowCommand(collectionHandler, server);
         Command add = new AddCommand(collectionHandler, marineAsker);
         Command update = new UpdateCommand(collectionHandler, marineAsker);
-        Command removeById = new RemoveByIdCommand(collectionHandler);
+        Command removeById = new RemoveByIdCommand(collectionHandler, server);
         Command clear = new ClearCommand(collectionHandler);
         Command save = new SaveCommand(collectionHandler);
         Command exit = new ExitCommand();
         Command addIfMin = new AddIfMinCommand(collectionHandler, marineAsker);
         Command addIfMax = new AddIfMaxCommand(collectionHandler, marineAsker);
-        Command removeLower = new RemoveLowerCommand(collectionHandler, marineAsker);
-        Command averageOfHealth = new AverageOfHealthCommand(collectionHandler);
+        Command removeLower = new RemoveLowerCommand(collectionHandler, server);
+        Command averageOfHealth = new AverageOfHealthCommand(collectionHandler, server);
         Command filterStartsWithName = new FilterStartsWithNameCommand(collectionHandler, server);
         Command countGreaterThanMeleeWeapon = new CountGreaterThanMeleeWeaponCommand(collectionHandler, server);
 

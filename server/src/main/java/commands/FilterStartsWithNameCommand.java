@@ -8,6 +8,8 @@ import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashSet;
 
 
@@ -33,10 +35,12 @@ public class FilterStartsWithNameCommand extends AbstractCommand {
     @Override
     public void execute(Request request) {
         if (argCheck(request.getArguments())) {
+            try{
+                PrintWriter output = new PrintWriter(server.getClientSocket().getOutputStream(), true);
             HashSet<SpaceMarine> marinesNames = collectionHandler.namestart(request.getArguments());
             if (!marinesNames.isEmpty()) {
-                for(SpaceMarine marine: marinesNames) Console.println(marine.getName());
-            } else Console.println("No matches found!");
-        }
+                for(SpaceMarine marine: marinesNames) output.println(marine.getName());
+            } else output.println("No matches found!");
+        }catch(IOException ioe){Console.printerror(ioe.getMessage());}}
     }
 }

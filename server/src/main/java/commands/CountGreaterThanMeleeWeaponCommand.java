@@ -9,6 +9,8 @@ import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashSet;
 
 public class CountGreaterThanMeleeWeaponCommand extends AbstractCommand {
@@ -36,16 +38,17 @@ public class CountGreaterThanMeleeWeaponCommand extends AbstractCommand {
     public void execute(Request request) {
         if (argCheck(request.getArguments())) {
         try {
+            PrintWriter output = new PrintWriter(server.getClientSocket().getOutputStream(), true);
             MeleeWeapon MeleeWep = MeleeWeapon.valueOf(request.getArguments().toUpperCase());
             int quantityMelee = 0;
             HashSet<SpaceMarine> marinesMelee = collectionHandler.enumerationMelee(MeleeWep);
             if (!marinesMelee.isEmpty()) {
                 for(SpaceMarine marine: marinesMelee) quantityMelee += 1;
-                Console.println(quantityMelee);
+                output.println(quantityMelee);
             } else Console.println("Items matching the condition were not found!");
         } catch (IllegalArgumentException exception) {
             System.out.println("This element is not in the list!");
-        }
+        }catch(IOException ioe){Console.printerror(ioe.getMessage());}
     }
     }
 }

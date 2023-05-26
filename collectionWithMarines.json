@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": 1,
+    "name": "Wiltrum",
+    "coordinates": {
+      "x": 10000.0,
+      "y": 10000.0
+    },
+    "creationDate": "2023-05-27T01:42:15.493780600",
+    "health": 999999.0,
+    "height": 188.0,
+    "weaponType": "FLAMER",
+    "meleeWeapon": "POWER_SWORD"
+  }
+]

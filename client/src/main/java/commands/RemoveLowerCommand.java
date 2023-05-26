@@ -20,14 +20,14 @@ public class RemoveLowerCommand extends AbstractCommand {
     @Override
     public boolean argCheck(String arg){
         try{
-            if(arg.equals("placeholderArg")) throw new ElementAmountException();
+            if(!arg.equals("placeholderArg")) throw new ElementAmountException();
             Integer.parseInt(arg);
 
             return true;
         } catch (ElementAmountException e) {
-            Console.printerror("Некорректное кол-во аргументов");
+            Console.printerror("Wrong number of arguments");
         } catch (NumberFormatException ex) {
-            Console.printerror("Введите число");
+            Console.printerror("Enter number");
         }
         return false;
     }

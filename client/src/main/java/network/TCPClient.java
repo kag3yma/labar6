@@ -60,7 +60,7 @@ public class TCPClient {
             return true;
         }
 
-        if (command.equals("execute_script <file_name>")){
+        if (command.equals("execute_script")){
             new ExecuteScriptCommand(CommandHelper.commandList(), this).execute(argument);
             return true;
         }

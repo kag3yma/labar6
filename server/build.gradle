@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'run'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'top.jfunc.json:Json-Gson:1.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+run {
+    main = 'run.App'
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'run.App'
+    }
+}
+task application{
+    mainClassName='run.App'
+}

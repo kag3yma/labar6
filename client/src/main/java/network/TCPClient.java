@@ -33,7 +33,6 @@ public class TCPClient {
     }
 
     public boolean sendRequest(String input) throws IOException, InterruptedException {
-        input = input + " placeholderArg";
         String [] tokens = input.split("\\s+");
         try{
         if ((tokens.length<2) || (tokens.length>3) ) throw  new NehvataetArgumentaException();} catch (NehvataetArgumentaException e){
@@ -74,7 +73,7 @@ public class TCPClient {
             InputStream in = new BufferedInputStream(clientSocket.socket().getInputStream());
             if (command.equals("add") || command.equals("update") || command.equals("add_if_max")
             || command.equals("add_if_min")){
-                objectOutput.writeObject(new Request(command, argument, new MarineAsker(userScanner)));
+                objectOutput.writeObject(new Request(command, argument, new MarineAsker().MarineCreator()));
             } else {
                 objectOutput.writeObject(new Request(command, argument, null));
             }

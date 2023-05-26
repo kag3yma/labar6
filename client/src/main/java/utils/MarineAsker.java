@@ -1,15 +1,13 @@
 package utils;
 
-import data.Chapter;
-import data.Coordinates;
-import data.MeleeWeapon;
-import data.Weapon;
+import data.*;
 import exceptions.IncorrectInputInScriptException;
 import exceptions.MustBeNotEmptyException;
 import exceptions.NotInDeclaredLimitsException;
 import run.App1;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -20,12 +18,32 @@ public class MarineAsker {
     private final int MAX_MARINES = 1000;
 
     private Scanner userScanner;
+    private CollectionHandler collectionHandler;
     private boolean fileMode;
 
     public MarineAsker(Scanner userScanner) {
         this.userScanner = userScanner;
         fileMode = false;
     }
+    public MarineAsker(){
+        this.userScanner = new Scanner(System.in);
+    }
+
+    public SpaceMarine MarineCreator() {
+        try{
+        return new SpaceMarine(
+                0L,
+                askName(),
+                LocalDateTime.now(),
+                askCoordinates(),
+                askHealth(),
+                askHeight(),
+                askWeaponType(),
+                askMeleeWeapon(),
+                askChapter());}catch (IncorrectInputInScriptException e){
+            Console.printerror("Incorrect input");
+        }
+    return null;}
 
     public void setUserScanner(Scanner userScanner) {
         this.userScanner = userScanner;

@@ -6,11 +6,13 @@ import utils.MarineAsker;
 public class Request implements Serializable {
     private String commandname;
     private String argument;
-    private MarineAsker marineAsker;
-    public Request(String commandname, String argument, MarineAsker marineAsker){
+    private SpaceMarine spaceMarine;
+    static final long serialVersionUID = 1L;
+
+    public Request(String commandname, String argument, SpaceMarine spaceMarine){
         this.commandname = commandname;
         this.argument = argument;
-        this.marineAsker = marineAsker;
+        this.spaceMarine = spaceMarine;
     }
 
     public String getCommandName(){
@@ -20,7 +22,7 @@ public class Request implements Serializable {
         return argument;
     }
 
-    public MarineAsker getmarineAsker() {
-        return marineAsker;
+    public SpaceMarine getMarineAsker() {
+        return spaceMarine;
     }
 }

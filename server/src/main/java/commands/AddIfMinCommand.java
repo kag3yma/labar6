@@ -22,7 +22,7 @@ public class AddIfMinCommand extends AbstractCommand {
     }
     public boolean argCheck(String arg){
         try{
-            if(!arg.equals("placeholderArg")) throw new ElementAmountException();
+            if(arg !="placeholderArg") throw new ElementAmountException();
             return true;
         } catch (ElementAmountException e) {
             Console.printerror("Invalid number of arguments");

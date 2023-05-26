@@ -1,0 +1,6 @@
+rootProject.name = 'labar6'
+include 'server'
+include 'client'
+include 'server:LogBack'
+findProject(':server:LogBack')?.name = 'LogBack'
+

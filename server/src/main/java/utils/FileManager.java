@@ -50,12 +50,19 @@ public class FileManager {
                         String col = collectionFileScanner.nextLine().trim();
                         coll = coll + col;
                     }
+                    if (coll != null) {
                     String a = coll.substring(4);
                     collection = gson.fromJson(a, collectionType);
                     HashSet<SpaceMarine> marines = collection;
-                    for (SpaceMarine marine : marines) CollectionHandler.getArrayForId().add(marine.getId());
-                    Console.println("Collection uploaded successfully!");
-                    this.marinesCollection = collection;
+                        for (SpaceMarine marine : marines) CollectionHandler.getArrayForId().add(marine.getId());
+                        Console.println("Collection uploaded successfully!");
+                        this.marinesCollection = collection;}
+                    else{collection = new HashSet<>();
+                        HashSet<SpaceMarine> marines = collection;
+                        for (SpaceMarine marine : marines) CollectionHandler.getArrayForId().add(marine.getId());
+                        Console.println("Collection uploaded successfully!");
+                        this.marinesCollection = collection;}
+
                     int count = 0;
                     try {
                         for (SpaceMarine elem : collection) {

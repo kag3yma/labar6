@@ -28,9 +28,6 @@ public class SaveCommand extends AbstractCommand {
     public void execute(Request request){
         if(argCheck(request.getArguments())){
                 collectionHandler.saveCollection();
-                Console.printerror("Collection saved successfully");
-
-
         }
     }
 

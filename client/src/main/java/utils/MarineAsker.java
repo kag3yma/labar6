@@ -7,8 +7,9 @@ import data.Weapon;
 import exceptions.IncorrectInputInScriptException;
 import exceptions.MustBeNotEmptyException;
 import exceptions.NotInDeclaredLimitsException;
-import run.App;
+import run.App1;
 
+import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -47,7 +48,7 @@ public class MarineAsker {
         while (true) {
             try {
                 Console.println("Enter name:");
-                Console.print(App.PS2);
+                Console.print(App1.PS2);
                 name = userScanner.nextLine().trim();
                 if (fileMode) Console.println(name);
                 if (name.equals("")) throw new MustBeNotEmptyException();
@@ -72,7 +73,7 @@ public class MarineAsker {
         while (true) {
             try {
                 Console.println("Enter height:");
-                Console.print(App.PS2);
+                Console.print(App1.PS2);
                 height = userScanner.nextLine().trim();
                 if (fileMode) Console.println(height);
                 h = Float.parseFloat(height);
@@ -97,7 +98,7 @@ public class MarineAsker {
         while (true) {
             try {
                 Console.println("Enter coordinate X > " + (MIN_X) + ":");
-                Console.print(App.PS2);
+                Console.print(App1.PS2);
                 strX = userScanner.nextLine().trim();
                 if (fileMode) Console.println(strX);
                 x = Float.parseFloat(strX);
@@ -126,7 +127,7 @@ public class MarineAsker {
         while (true) {
             try {
                 Console.println("Enter coordinate Y:");
-                Console.print(App.PS2);
+                Console.print(App1.PS2);
                 strY = userScanner.nextLine().trim();
                 if (fileMode) Console.println(strY);
                 y = Float.parseFloat(strY);
@@ -159,7 +160,7 @@ public class MarineAsker {
         while (true) {
             try {
                 Console.println(finalQuestion);
-                Console.print(App.PS2);
+                Console.print(App1.PS2);
                 answer = userScanner.nextLine().trim();
                 if (fileMode) Console.println(answer);
                 if (!answer.equals("+") && !answer.equals("-")) throw new NotInDeclaredLimitsException();
@@ -185,7 +186,7 @@ public class MarineAsker {
         while (true) {
             try {
                 Console.println("Enter health:");
-                Console.print(App.PS2);
+                Console.print(App1.PS2);
                 strHealth = userScanner.nextLine().trim();
                 if (fileMode) Console.println(strHealth);
                 health = Float.parseFloat(strHealth);
@@ -215,7 +216,7 @@ public class MarineAsker {
             try {
                 Console.println("List of weapons - " + Weapon.nameList());
                 Console.println("Enter weapons:");
-                Console.print(App.PS2);
+                Console.print(App1.PS2);
                 strWeaponType = userScanner.nextLine().trim();
                 if (fileMode) Console.println(strWeaponType);
                 weaponType = Weapon.valueOf(strWeaponType.toUpperCase());
@@ -241,7 +242,7 @@ public class MarineAsker {
             try {
                 Console.println("List of melee weapons - " + MeleeWeapon.nameList());
                 Console.println("Enter the melee weapon:");
-                Console.print(App.PS2);
+                Console.print(App1.PS2);
                 strMeleeWeapon = userScanner.nextLine().trim();
                 if (fileMode) Console.println(strMeleeWeapon);
                 meleeWeapon = MeleeWeapon.valueOf(strMeleeWeapon.toUpperCase());
@@ -265,7 +266,7 @@ public class MarineAsker {
         while (true) {
             try {
                 Console.println("Enter the name of the order:");
-                Console.print(App.PS2);
+                Console.print(App1.PS2);
                 chapterName = userScanner.nextLine().trim();
                 if (fileMode) Console.println(chapterName);
                 if (chapterName.equals("")) throw new MustBeNotEmptyException();
@@ -288,7 +289,7 @@ public class MarineAsker {
         while (true) {
             try {
                 Console.println("Enter parent legion:");
-                Console.print(App.PS2);
+                Console.print(App1.PS2);
                 parentLegion = userScanner.nextLine().trim();
                 if (fileMode) Console.println(parentLegion);
                 break;
@@ -306,7 +307,7 @@ public class MarineAsker {
         while (true) {
             try {
                 Console.println("Enter the number of soldiers in the order less " + (MAX_MARINES + 1) + " and more " + MIN_MARINES + ":");
-                Console.print(App.PS2);
+                Console.print(App1.PS2);
                 strMarinesCount = userScanner.nextLine().trim();
                 if (fileMode) Console.println(strMarinesCount);
                 marinesCount = Integer.parseInt(strMarinesCount);
@@ -333,7 +334,7 @@ public class MarineAsker {
         while (true) {
             try {
                 Console.println("Enter world name:");
-                Console.print(App.PS2);
+                Console.print(App1.PS2);
                 world = userScanner.nextLine().trim();
                 if (fileMode) Console.println(world);
                 break;
@@ -366,7 +367,7 @@ public class MarineAsker {
         while (true) {
             try {
                 Console.println(finalQuestion);
-                Console.print(App.PS2);
+                Console.print(App1.PS2);
                 answer = userScanner.nextLine().trim();
                 if (fileMode) Console.println(answer);
                 if (!answer.equals("+") && !answer.equals("-")) throw new NotInDeclaredLimitsException();

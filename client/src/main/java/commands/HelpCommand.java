@@ -28,7 +28,7 @@ public class HelpCommand extends AbstractCommand {
             Console.println(".................");
             for (String name: CommandHelper.commandList().keySet()) {
                 String value = CommandHelper.commandList().get(name);
-                Console.println("\u001B[36m" + name + "\u001B[0m" + " - " + value + "\n..............");
+                Console.println(name + " - " + value + "\n..............");
             }
         }
     }

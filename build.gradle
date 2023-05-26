@@ -12,20 +12,20 @@ subprojects {
 
 project(':server') {
     apply plugin: 'application'
-    mainClassName = 'server.App'
+    mainClassName = 'server.run.App'
     dependencies {
         implementation 'com.google.code.gson:gson:2.8.6'
     }
     jar {
         manifest {
-            attributes 'Main-Class': 'server.App'
+            attributes 'Main-Class': 'server.run.App'
         }
     }
 }
 
 project(':client') {
     apply plugin: 'application'
-    mainClassName = 'client.App'
+    mainClassName = 'client.run.App1'
     dependencies {
     }
     run {
@@ -33,7 +33,7 @@ project(':client') {
     }
     jar {
         manifest {
-            attributes 'Main-Class': 'client.App'
+            attributes 'Main-Class': 'client.run.App1'
         }
     }
 }

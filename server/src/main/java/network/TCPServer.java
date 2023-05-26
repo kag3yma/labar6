@@ -19,10 +19,10 @@ public class TCPServer{
     public void start(HashMap<String, Command> map, CollectionHandler collectionHandler){
         openServerSocket();
         while(serverSocketChannel!=null){
-            System.out.println("waiting for connection");
+            System.out.println("waiting for connection...");
             try{
                 this.clientSocket = serverSocketChannel.accept();
-                System.out.println("successfuly connected");
+                System.out.println("successfully connected");
                 processRequest(map);
             } catch (IOException ioe) {
                 System.out.println("Connection error"+ioe.getMessage());
@@ -38,7 +38,7 @@ public class TCPServer{
             serverSocketChannel = ServerSocketChannel.open();
             serverSocketChannel.bind(new InetSocketAddress("localhost", port));
         } catch (IOException e) {
-            System.out.println("Port error");
+            System.out.println("Port error"+ e.getMessage());
         }
     }
 

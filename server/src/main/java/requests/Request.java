@@ -8,7 +8,7 @@ public class Request implements Serializable {
     private SpaceMarine spaceMarine;
     public Request(String commandname, String argument, SpaceMarine spaceMarine){
         this.commandname = commandname;
-        this.arguments = arguments;
+        this.arguments = argument;
         this.spaceMarine = spaceMarine;
     }
 

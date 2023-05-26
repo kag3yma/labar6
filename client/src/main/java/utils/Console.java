@@ -1,15 +1,9 @@
 package utils;
 
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
-
-import exceptions.ScriptRecursionException;
-import run.App;
 
 public class Console {
     private CommandManager commandManager;

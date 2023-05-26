@@ -69,8 +69,6 @@ public class App {
             }
         }).start();
 
-        new Thread(() ->{
-            server.start(map,collectionHandler);
-        }).start();
+        new Thread(() -> server.start(map,collectionHandler)).start();
     }
 }

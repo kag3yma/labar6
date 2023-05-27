@@ -36,9 +36,9 @@ public class InfoCommand extends AbstractCommand {
         if(argCheck(request.getArguments())){
             try {
                 PrintWriter output = new PrintWriter(server.getClientSocket().getOutputStream(), true);
-                String lastInitTime = collectionHandler.getInitDateTime1();
+                FileTime lastInitTime = collectionHandler.getInitDateTime();
                 String lastInitTimeString = (lastInitTime == null) ? "initialization has not yet taken place in this session" :
-                        lastInitTime;
+                        lastInitTime.toString();
 
                 LocalDateTime lastSaveTime = collectionHandler.getLastSaveTime();
                 String lastSaveTimeString = (lastSaveTime == null) ? "this session has not yet been saved" :

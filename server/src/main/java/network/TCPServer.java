@@ -1,6 +1,7 @@
 package network;
 
 
+import org.slf4j.LoggerFactory;
 import requests.Request;
 import utils.*;
 import commands.Command;
@@ -11,23 +12,24 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-
+import ch.qos.logback.classic.*;
 public class TCPServer{
     private ServerSocketChannel serverSocketChannel;
     private int port = 4444;
     protected SocketChannel clientSocket;
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(TCPServer.class);
     public void start(HashMap<String, Command> map, CollectionHandler collectionHandler){
         openServerSocket();
+        logger.info("waiting for connection...");
         while(serverSocketChannel!=null){
-            System.out.println("waiting for connection...");
             try{
                 this.clientSocket = serverSocketChannel.accept();
-                System.out.println("successfully connected");
+                logger.info("successfully connected");
                 processRequest(map);
             } catch (IOException ioe) {
-                System.out.println("Connection error"+ioe.getMessage());
+               logger.error("Connection error", ioe.getMessage());
             } catch (ClassNotFoundException ioe) {
-                System.out.println("Request error"+ioe.getMessage());
+                logger.error("Request error",ioe.getMessage());
             }
         }
         closeServerSocket();
@@ -38,7 +40,7 @@ public class TCPServer{
             serverSocketChannel = ServerSocketChannel.open();
             serverSocketChannel.bind(new InetSocketAddress("localhost", port));
         } catch (IOException e) {
-            System.out.println("Port error"+ e.getMessage());
+            logger.error("Port error", e.getMessage());
         }
     }
 
@@ -46,7 +48,7 @@ public class TCPServer{
         try {
             serverSocketChannel.close();
         } catch (IOException e) {
-            System.out.println("Closing Port error");
+            logger.error("Closing Port error", e.getMessage());
         }
     }
 
@@ -54,9 +56,10 @@ public class TCPServer{
         ObjectInput objectInput = new ObjectInputStream(clientSocket.socket().getInputStream());
         Request request = (Request) objectInput.readObject();
         if(map.containsKey(request.getCommandName())){
+            logger.info("Requested command: "+request.getCommandName());
             map.get(request.getCommandName()).execute(request);
         } else {
-            System.out.println("Unknown command");
+            logger.error("Unknown command");
         }
         objectInput.close();
         return true;

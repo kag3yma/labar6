@@ -37,7 +37,7 @@ public class AddIfMaxCommand extends AbstractCommand {
             SpaceMarine spaceMarine = request.getSpaceMarine();
             spaceMarine.setId(collectionHandler.generateNextId());
             if (collectionHandler.collectionSize() == 0 ||
-                    spaceMarine.healthCompareTo(collectionHandler.getById(collectionHandler.getMin())) < 0) {
+                    spaceMarine.healthCompareTo(collectionHandler.getById(collectionHandler.getMax())) > 0) {
                 collectionHandler.addToCollection(spaceMarine);
                 Console.println("Soldier successfully added!");
             } else

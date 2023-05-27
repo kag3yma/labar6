@@ -12,11 +12,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public class CollectionHandler implements Serializable {
     HashSet<SpaceMarine> marinesCollection =  new HashSet<>();
@@ -113,25 +112,18 @@ public class CollectionHandler implements Serializable {
     }
 
     public Long generateNextId(){
-        Long nextId = Long.valueOf(0);
-        for(SpaceMarine spaceMarine : marinesCollection){
-            if (spaceMarine.getId() >= nextId){
-                nextId = spaceMarine.getId();
-            }
-        }
+        OptionalLong maxId = marinesCollection.stream()
+                .mapToLong(SpaceMarine::getId)
+                .max();
+        Long nextId = maxId.orElse(0L);
         return nextId+1;
     }
     public Float averageHealth() {
         if (marinesCollection.isEmpty()) return 0F;
-        Float avghealth;
-        Float sumhealth = 0F;
-        Float quantity = 0F;
-        for(SpaceMarine Marine: marinesCollection) {
-            sumhealth += Marine.getHealth();
-            quantity += 1F;
-        }
-        avghealth = sumhealth / quantity;
-        return avghealth;
+        OptionalDouble avgHealth = marinesCollection.stream()
+                .mapToDouble(SpaceMarine::getHealth)
+                .average();
+        return (Float) (float) avgHealth.orElse(0);
     }
     public int enumeration(Float health) {
         int executeStatus = 0;
@@ -172,29 +164,31 @@ public class CollectionHandler implements Serializable {
 
     public Long getMin() {
         if (marinesCollection.isEmpty()) return 999999999L;
-        Float minhealth = 999999.0F;
-        Long minId = 999999999L;
-        for(SpaceMarine firstMarine: marinesCollection)
-            if(firstMarine.getHealth() < minhealth) {
-                minhealth = firstMarine.getHeight();
-                minId = firstMarine.getId();
-            }
+        Optional<SpaceMarine> minHealthMarine = marinesCollection.stream()
+                .min(Comparator.comparing(SpaceMarine::getHealth));
+        Float minHealth = minHealthMarine.map(SpaceMarine::getHealth).orElse(999999999F);
+        Long minId = minHealthMarine.map(SpaceMarine::getId).orElse(999999999L);
         return minId;
     }
     public Long getMax() {
         if (marinesCollection.isEmpty()) return 0L;
-        Float maxhealth = 0F;
-        Long maxId = 0L;
-        for(SpaceMarine firstMarine: marinesCollection)
-            if(firstMarine.getHealth() > maxhealth) {
-                maxhealth = firstMarine.getHeight();
-                maxId = firstMarine.getId();
-            }
+        Optional<SpaceMarine> maxHealthMarine = marinesCollection.stream()
+                .max(Comparator.comparing(SpaceMarine::getHealth));
+        Float maxHealth = maxHealthMarine.map(SpaceMarine::getHealth).orElse(0F);
+        Long maxId = maxHealthMarine.map(SpaceMarine::getId).orElse(0L);
+
+
+      //  for(SpaceMarine firstMarine: marinesCollection)
+        //    if(firstMarine.getHealth() > maxhealth) {
+          //      maxhealth = firstMarine.getHeight();
+            //    maxId = firstMarine.getId();
+            //}
         return maxId;
     }
 
 
     public void saveCollection() {
+        // lab7 - сделать потокобезопасным
         fileManager.writeFile(marinesCollection);
         saveDateTime = LocalDateTime.now();
     }

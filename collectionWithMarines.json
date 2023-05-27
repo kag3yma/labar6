@@ -1,33 +1,14 @@
 [
   {
-    "id": 2,
-    "name": "Ilyass",
-    "coordinates": {
-      "x": 900.0,
-      "y": -300.0
-    },
-    "creationDate": "2023-05-27T03:18:30.444931500",
-    "health": 100.0,
-    "height": 10.0,
-    "weaponType": "GRENADE_LAUNCHER",
-    "meleeWeapon": "MANREAPER",
-    "chapter": {
-      "name": "Spectr_mam",
-      "parentLegion": "Kontora_mam",
-      "marinesCount": 8,
-      "world": "Earth"
-    }
-  },
-  {
     "id": 1,
-    "name": "Wiltrum",
+    "name": "erwr",
     "coordinates": {
-      "x": 10000.0,
-      "y": 10000.0
+      "x": 1312.0,
+      "y": 13.0
     },
-    "creationDate": "2023-05-27T01:42:15.493780600",
-    "health": 999999.0,
-    "height": 188.0,
+    "creationDate": "2023-05-27T16:11:32.079145300",
+    "health": 100.0,
+    "height": 100.0,
     "weaponType": "FLAMER",
     "meleeWeapon": "POWER_SWORD"
   }

@@ -5,17 +5,18 @@ import exceptions.ElementAmountException;
 import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
+import utils.DatabaseHandler;
 import utils.MarineAsker;
 
 public class AddIfMaxCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
-    private MarineAsker marineAsker;
+    private DatabaseHandler databaseHandler;
 
-    public AddIfMaxCommand(CollectionHandler collectionHandler, MarineAsker marineAsker) {
+    public AddIfMaxCommand(CollectionHandler collectionHandler, DatabaseHandler databaseHandler) {
         super("add_if_max", "add a new element to the collection, " +
                 "if its value is greater than the value of the largest element of this collection");
         this.collectionHandler = collectionHandler;
-        this.marineAsker = marineAsker;
+        this.databaseHandler = databaseHandler;
     }
     public boolean argCheck(String arg){
         try{

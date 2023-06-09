@@ -13,12 +13,10 @@ import java.time.LocalDateTime;
 
 public class InfoCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
-    private TCPServer server;
 
-    public InfoCommand(CollectionHandler collectionHandler, TCPServer server) {
+    public InfoCommand(CollectionHandler collectionHandler) {
         super("info", "display information about the collection");
         this.collectionHandler = collectionHandler;
-        this.server = server;
     }
     public boolean argCheck(String arg){
         try{
@@ -33,8 +31,7 @@ public class InfoCommand extends AbstractCommand {
     @Override
     public String execute(Request request) {
         if(argCheck(request.getArguments())){
-            try {
-                PrintWriter output = new PrintWriter(server.getClientSocket().getOutputStream(), true);
+                String output = "";
                 FileTime lastInitTime = collectionHandler.getInitDateTime();
                 String lastInitTimeString = (lastInitTime == null) ? "initialization has not yet taken place in this session" :
                         lastInitTime.toString();
@@ -43,12 +40,11 @@ public class InfoCommand extends AbstractCommand {
                 String lastSaveTimeString = (lastSaveTime == null) ? "this session has not yet been saved" :
                         lastSaveTime.toLocalDate().toString() + " " + lastSaveTime.toLocalTime().toString();
 
-                output.println("Collection details:");
-                output.println(" Type: " + collectionHandler.collectionType());
-                output.println(" Amount of elements: " + collectionHandler.collectionSize());
-                output.println(" Last save date: " + lastSaveTimeString);
-                output.println(" Date of last initialization: " + lastInitTimeString);
-            }catch (IOException e){ Console.printerror(e.getMessage());}
+                output += ("Collection details:");
+                output += (" Type: " + collectionHandler.collectionType());
+                output += (" Amount of elements: " + collectionHandler.collectionSize());
+                output += (" Last save date: " + lastSaveTimeString);
+                output += (" Date of last initialization: " + lastInitTimeString);
     }
         return null;
     }

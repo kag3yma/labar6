@@ -8,22 +8,25 @@ import network.TCPServer;
 import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
+import utils.DatabaseHandler;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Optional;
 
 public class RemoveByIdCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
-    private TCPServer server;
+    private DatabaseHandler databaseHandler;
 
-    public RemoveByIdCommand(CollectionHandler collectionHandler, TCPServer server) {
+    public RemoveByIdCommand(CollectionHandler collectionHandler, DatabaseHandler databaseHandler) {
         super("remove_by_id", "remove item from collection by ID");
         this.collectionHandler = collectionHandler;
-        this.server = server;
+        this.databaseHandler = databaseHandler;
     }
-    public boolean argCheck(String arg){
-        try{
-            if(arg.equals("placeholderArg")) throw new ElementAmountException();
+
+    public boolean argCheck(String arg) {
+        try {
+            if (arg.equals("placeholderArg")) throw new ElementAmountException();
             Integer.parseInt(arg);
 
             return true;
@@ -38,23 +41,14 @@ public class RemoveByIdCommand extends AbstractCommand {
 
     @Override
     public String execute(Request request) {
-        if(argCheck(request.getArguments())) {
-            try{
-                PrintWriter output = new PrintWriter(server.getClientSocket().getOutputStream(), true);
-        try {
-            if (collectionHandler.collectionSize() == 0) throw new CollectionIsEmptyException();
-            Long id = Long.parseLong(request.getArguments());
-            SpaceMarine marineToRemove = collectionHandler.getById(id);
-            if (marineToRemove == null) throw new MarineNotFoundException();
-            collectionHandler.removeFromCollection(marineToRemove);
-            output.println("Soldier successfully removed!");
-        } catch (CollectionIsEmptyException exception) {
-            output.println("Collection is empty!");
-        } catch (NumberFormatException exception) {
-            output.println("ID must be represented by a number!");
-        } catch (MarineNotFoundException exception) {
-            output.println("There is no soldier with this ID in the collection!");
+        if (argCheck(request.getArguments())) {
+            Optional<SpaceMarine> bufferedSpaceMarine = collectionHandler.getCollection().stream().filter(spaceMarine -> spaceMarine.getId() == Long.parseLong(
+                    request.getArguments())).findFirst();
+            if (bufferedSpaceMarine.get().getCreator().equals(request.getUser().getLogin())) {
+                bufferedSpaceMarine.ifPresent(collectionHandler::removeFromCollection);
+                databaseHandler.deleteSpaceMarine(bufferedSpaceMarine.get().getId());
+            }
         }
-    }catch (IOException e){ Console.printerror(e.getMessage());}}
-        return null;
-    }}
+        return "";
+    }
+}

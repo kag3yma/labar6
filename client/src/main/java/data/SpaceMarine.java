@@ -121,6 +121,7 @@ public class SpaceMarine implements Serializable {
         info += "\n Weapon: " + weaponType;
         info += "\n Melee Weapon: " + meleeWeapon;
         info += "\n " + chapter;
+        info += "\n Creator: "+ creator;
         info += "\n";
         return info;
     }

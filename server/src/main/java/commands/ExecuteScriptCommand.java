@@ -43,7 +43,7 @@ public class ExecuteScriptCommand extends AbstractCommand {
                     String[] tokens = command.split("\\s+");
                     command = tokens[0];
                     String argument = tokens[1];
-                    Request buffRequest = new Request(command, argument, null);
+                    Request buffRequest = new Request(command, argument, null,request.getUser());
                     if(!command.equals("execute_script")){
                         Console.println("Command execution: " + command);
                         if(map.containsKey(command)){

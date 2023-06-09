@@ -4,13 +4,16 @@ import exceptions.ElementAmountException;
 import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
+import utils.DatabaseHandler;
 
 public class SaveCommand extends AbstractCommand {
+    private  DatabaseHandler databaseHandler;
     private CollectionHandler collectionHandler;
 
-    public SaveCommand(CollectionHandler collectionHandler) {
+    public SaveCommand(CollectionHandler collectionHandler, DatabaseHandler databaseHandler) {
         super("save", "save collection to file");
         this.collectionHandler = collectionHandler;
+        this.databaseHandler = databaseHandler;
     }
     public boolean argCheck(String arg){
         try{
@@ -24,9 +27,9 @@ public class SaveCommand extends AbstractCommand {
     @Override
     public String execute(Request request){
         if(argCheck(request.getArguments())){
-                collectionHandler.saveCollection();
+                collectionHandler.getCollection().stream().forEach(spaceMarine -> databaseHandler.saveMarine(spaceMarine));
         }
-        return null;
+        return "";
     }
 
 }

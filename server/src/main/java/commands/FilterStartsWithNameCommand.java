@@ -6,20 +6,20 @@ import network.TCPServer;
 import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
+import utils.DatabaseHandler;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashSet;
 
 
 public class FilterStartsWithNameCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
-    private TCPServer server;
 
-    public FilterStartsWithNameCommand(CollectionHandler collectionHandler, TCPServer server) {
+    public FilterStartsWithNameCommand(CollectionHandler collectionHandler, DatabaseHandler databaseHandler) {
         super("filter_starts_with_name", "display elements whose name field value starts with the given substring");
         this.collectionHandler = collectionHandler;
-        this.server = server;
     }
     public boolean argCheck(String arg){
         try{
@@ -34,13 +34,17 @@ public class FilterStartsWithNameCommand extends AbstractCommand {
     @Override
     public String execute(Request request) {
         if (argCheck(request.getArguments())) {
-            try{
-                PrintWriter output = new PrintWriter(server.getClientSocket().getOutputStream(), true);
-            HashSet<SpaceMarine> marinesNames = collectionHandler.namestart(request.getArguments());
-            if (!marinesNames.isEmpty()) {
-                for(SpaceMarine marine: marinesNames) output.println(marine.getName());
-            } else output.println("No matches found!");
-        }catch(IOException ioe){Console.printerror(ioe.getMessage());}}
-        return null;
+            try (StringWriter stringWriter = new StringWriter()){
+                PrintWriter printWriter = new PrintWriter(stringWriter, true);
+                collectionHandler.getCollection().stream()
+                        .filter(spaceMarine -> spaceMarine.getName().contains(request.getArguments()))
+                        .forEach(spaceMarine -> collectionHandler.printSpaceMarine(spaceMarine, printWriter));
+                return stringWriter.toString();
+            }catch (IOException ioe){
+                return "Error: " + ioe.getMessage();
+            }
+        }else {
+            return "";
+        }
     }
 }

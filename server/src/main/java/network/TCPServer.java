@@ -1,6 +1,8 @@
 package network;
 
+import ch.qos.logback.classic.Logger;
 import commands.Command;
+import org.slf4j.LoggerFactory;
 import utils.Executor;
 import requests.Request;
 import utils.CollectionHandler;
@@ -16,14 +18,12 @@ import java.util.HashMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class TCPServer {
     private ServerSocketChannel serverSocketChannel;
     private int port = 3333;
     protected SocketChannel clientSocket;
-    private Logger logger = Logger.getLogger("logger");
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(TCPServer.class);
     BlockingQueue<String> messageQueue = new LinkedBlockingQueue<>();
     BlockingQueue<Request> requestQueue = new LinkedBlockingQueue<>();
     BlockingQueue<Throwable> errorQueue = new LinkedBlockingQueue<>();
@@ -32,15 +32,15 @@ public class TCPServer {
         openServerSocket();
         ForkJoinPool pool = new ForkJoinPool();
         while (serverSocketChannel != null) {
-            logger.log(Level.INFO, "Ожидание подключения...");
+            logger.info("Waiting for connection");
             try {
                 this.clientSocket = serverSocketChannel.accept();
-                logger.log(Level.FINER, "Подключение успешно");
+                logger.info("Successfully connected");
                 pool.execute(new RequestHandler(map, clientSocket, logger, requestQueue, errorQueue));
                 pool.execute(new OutputSocketWriter(clientSocket.socket(), messageQueue, errorQueue));
                 pool.execute(new Executor(map, clientSocket.socket(), requestQueue, messageQueue, errorQueue));
             } catch (IOException ioe) {
-                logger.log(Level.SEVERE, "Не удалось подключиться к клиенту: ", ioe.getMessage());
+                logger.error( "Connection error: ", ioe.getMessage());
             }
         }
         closeServerSocket();
@@ -52,7 +52,7 @@ public class TCPServer {
             serverSocketChannel = ServerSocketChannel.open();
             serverSocketChannel.bind(new InetSocketAddress("localhost", port));
         } catch (IOException e) {
-            logger.log(Level.SEVERE,"Ошибка при открытии соединения", e.getMessage());
+            logger.error("Error while opening port", e.getMessage());
         }
     }
 
@@ -60,7 +60,7 @@ public class TCPServer {
         try {
             serverSocketChannel.close();
         } catch (IOException e) {
-            logger.log(Level.SEVERE,"Ошибка при закрытии соединения", e.getMessage());
+            logger.error("Error while closing port", e.getMessage());
         }
     }
 
@@ -88,7 +88,7 @@ public class TCPServer {
             try {
                 processRequest(map);
             } catch (Throwable e) {
-                logger.log(Level.SEVERE, "Ошибка при обработке запроса: " + e.getMessage());
+                logger.error( "Error processing request: " + e.getMessage());
                 try {
                     errorQueue.put(e);
                     requestQueue.put(new Request("err", "err", null, null));
@@ -98,7 +98,7 @@ public class TCPServer {
             }
         }
 
-        private boolean processRequest(HashMap<String, Command> map) throws IOException, ClassNotFoundException {
+        private void processRequest(HashMap<String, Command> map) throws IOException, ClassNotFoundException {
             ObjectInput objectInput = new ObjectInputStream(clientSocket.socket().getInputStream());
             Request request = (Request) objectInput.readObject();
             // objectInput.close();
@@ -107,7 +107,6 @@ public class TCPServer {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return true;
         }
     }
 }

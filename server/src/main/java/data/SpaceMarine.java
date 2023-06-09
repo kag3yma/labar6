@@ -13,10 +13,12 @@ public class SpaceMarine implements Serializable {
     private Weapon weaponType;
     private MeleeWeapon meleeWeapon;
     private Chapter chapter;
+    private String creator;
+    private boolean saved;
 
     public SpaceMarine(Long id, String name, LocalDateTime creationDate, Coordinates coordinates,
                        Float health, float height, Weapon weaponType,
-                       MeleeWeapon meleeWeapon,Chapter chapter) {
+                       MeleeWeapon meleeWeapon,Chapter chapter, String creator) {
         this.id = id;
         this.creationDate = creationDate;
         this.name = name;
@@ -26,9 +28,11 @@ public class SpaceMarine implements Serializable {
         this.weaponType = weaponType;
         this.meleeWeapon = meleeWeapon;
         this.chapter = chapter;
+        this.creator = creator;
+        this.saved = false;
     }public SpaceMarine(Long id, String name, LocalDateTime creationDate, Coordinates coordinates,
                         Float health, float height, Weapon weaponType,
-                        MeleeWeapon meleeWeapon) {
+                        MeleeWeapon meleeWeapon, String creator) {
         this.id = id;
         this.creationDate = creationDate;
         this.name = name;
@@ -38,6 +42,8 @@ public class SpaceMarine implements Serializable {
         this.weaponType = weaponType;
         this.meleeWeapon = meleeWeapon;
         this.chapter = null;
+        this.creator = creator;
+        this.saved = false;
     }
 
     public Long getId() {
@@ -75,6 +81,12 @@ public class SpaceMarine implements Serializable {
     public int healthCompareTo(SpaceMarine marineObj) {
         return health.compareTo(marineObj.getHealth());
     }
+    public String getCreator(){return creator;}
+    public void setCreator(String creator){
+        this.creator = creator;
+    }
+    public void setSaved(){this.saved = true;}
+    public boolean getSaved(){return saved;}
 
     @Override
     public boolean equals(Object obj) {
@@ -102,6 +114,7 @@ public class SpaceMarine implements Serializable {
         info += "\n Weapon: " + weaponType;
         info += "\n Melee Weapon: " + meleeWeapon;
         info += "\n " + chapter;
+        info += "\n Creator: " + creator;
         info += "\n";
         return info;
     }

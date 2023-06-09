@@ -5,16 +5,17 @@ import exceptions.ElementAmountException;
 import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
+import utils.DatabaseHandler;
 import utils.MarineAsker;
 
 public class AddCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
-    private MarineAsker marineAsker;
+    private DatabaseHandler databaseHandler;
 
-    public AddCommand(CollectionHandler collectionHandler, MarineAsker marineAsker) {
+    public AddCommand(CollectionHandler collectionHandler, DatabaseHandler databaseHandler) {
         super("add", "add a new element to the collection");
         this.collectionHandler = collectionHandler;
-        this.marineAsker = marineAsker;
+        this.databaseHandler = databaseHandler;
     }
     @Override
     public boolean argCheck(String arg){

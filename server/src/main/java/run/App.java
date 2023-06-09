@@ -1,5 +1,6 @@
 package run;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Scanner;
 import commands.*;
@@ -15,26 +16,35 @@ public class App {
     public static final String PS2 = "> ";
     public static void main(String[] args) {
         Scanner userScanner = new Scanner(System.in);
-        final String nameFile = args[0];
+        CollectionHandler collectionHandler = new CollectionHandler();
         MarineAsker marineAsker = new MarineAsker(userScanner);
-        FileManager fileManager = new FileManager(nameFile);
-        CollectionHandler collectionHandler = new CollectionHandler(fileManager);
-        TCPServer server = new TCPServer();
 
-        Command info = new InfoCommand(collectionHandler, server);
-        Command show = new ShowCommand(collectionHandler, server);
-        Command add = new AddCommand(collectionHandler, marineAsker);
-        Command update = new UpdateCommand(collectionHandler, marineAsker);
-        Command removeById = new RemoveByIdCommand(collectionHandler, server);
+        TCPServer server = new TCPServer();
+        DatabaseHandler databaseHandler = new DatabaseHandler();
+        try{
+            collectionHandler.setCollection(databaseHandler.getAllSpaceMarines());
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        Command info = new InfoCommand(collectionHandler);
+        Command show = new ShowCommand(collectionHandler);
+        Command add = new AddCommand(collectionHandler, databaseHandler);
+        Command update = new UpdateCommand(collectionHandler, databaseHandler);
+        Command removeById = new RemoveByIdCommand(collectionHandler, databaseHandler);
         Command clear = new ClearCommand(collectionHandler);
-        Command save = new SaveCommand(collectionHandler);
+        Command save = new SaveCommand(collectionHandler,databaseHandler);
         Command exit = new ExitCommand();
-        Command addIfMin = new AddIfMinCommand(collectionHandler, marineAsker);
-        Command addIfMax = new AddIfMaxCommand(collectionHandler, marineAsker);
-        Command removeLower = new RemoveLowerCommand(collectionHandler, server);
-        Command averageOfHealth = new AverageOfHealthCommand(collectionHandler, server);
-        Command filterStartsWithName = new FilterStartsWithNameCommand(collectionHandler, server);
-        Command countGreaterThanMeleeWeapon = new CountGreaterThanMeleeWeaponCommand(collectionHandler, server);
+        Command addIfMin = new AddIfMinCommand(collectionHandler, databaseHandler);
+        Command addIfMax = new AddIfMaxCommand(collectionHandler, databaseHandler);
+        Command removeLower = new RemoveLowerCommand(collectionHandler, databaseHandler);
+        Command averageOfHealth = new AverageOfHealthCommand(collectionHandler, databaseHandler);
+        Command filterStartsWithName = new FilterStartsWithNameCommand(collectionHandler, databaseHandler);
+        Command countGreaterThanMeleeWeapon = new CountGreaterThanMeleeWeaponCommand(collectionHandler);
+        Command register = new RegisterCommand(databaseHandler);
+        Command login = new LoginCommand(databaseHandler);
+        Command load = new LoadCommand(collectionHandler);
+
 
         HashMap<String, Command> map = new HashMap<String, Command>();
         map.put(info.getName(), info);
@@ -49,6 +59,9 @@ public class App {
         map.put(removeLower.getName(),removeLower);
         map.put(averageOfHealth.getName(), averageOfHealth);
         map.put(countGreaterThanMeleeWeapon.getName(), countGreaterThanMeleeWeapon);
+        map.put(register.getName(), register);
+        map.put(login.getName(), login);
+        map.put(load.getName(), load);
 
         Command executeScriptCommand = new ExecuteScriptCommand(map);
         map.put(executeScriptCommand.getName(), executeScriptCommand);
@@ -58,11 +71,11 @@ public class App {
                 String command = userScanner.nextLine();
                 if(command.trim().equals(exit.getName())){
                     userScanner.close();
-                    save.execute(new Request("save", "placeholderArg",null));
-                    exit.execute(new Request("exit", "placeholderArg",null));
+                    save.execute(new Request("save", "placeholderArg",null,null));
+                    exit.execute(new Request("exit", "placeholderArg",null,null));
                 }
                 if(command.trim().equals(save.getName())){
-                    save.execute(new Request("save", "placeholderArg",null));
+                    save.execute(new Request("save", "placeholderArg",null,null));
                 } else {
                     Console.printerror("No Such Command, server can run only save and exit commands");
                 }

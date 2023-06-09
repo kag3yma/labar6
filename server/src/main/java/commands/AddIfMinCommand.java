@@ -5,16 +5,17 @@ import exceptions.ElementAmountException;
 import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
+import utils.DatabaseHandler;
 import utils.MarineAsker;
 
 public class AddIfMinCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
-    private MarineAsker marineAsker;
+    private DatabaseHandler databaseHandler;
 
-    public AddIfMinCommand(CollectionHandler collectionHandler, MarineAsker marineAsker) {
+    public AddIfMinCommand(CollectionHandler collectionHandler, DatabaseHandler databaseHandler) {
         super("add_if_min", "add a new element if its value is less than that of the smallest");
         this.collectionHandler = collectionHandler;
-        this.marineAsker = marineAsker;
+        this.databaseHandler = databaseHandler;
     }
     public boolean argCheck(String arg){
         try{

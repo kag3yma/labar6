@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class FileManager {
-    HashSet<SpaceMarine> marinesCollection;
+    HashSet<SpaceMarine> collection;
     private final Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateAdapter()).registerTypeAdapter(
             LocalDateTime.class, new LocalDateTimeAdapter()).setPrettyPrinting().create();
     private final String nameFile;
@@ -56,12 +56,12 @@ public class FileManager {
                     HashSet<SpaceMarine> marines = collection;
                         for (SpaceMarine marine : marines) CollectionHandler.getArrayForId().add(marine.getId());
                         Console.println("Collection uploaded successfully!");
-                        this.marinesCollection = collection;}
+                        this.collection = collection;}
                     else{collection = new HashSet<>();
                         HashSet<SpaceMarine> marines = collection;
                         for (SpaceMarine marine : marines) CollectionHandler.getArrayForId().add(marine.getId());
                         Console.println("Collection uploaded successfully!");
-                        this.marinesCollection = collection;}
+                        this.collection = collection;}
 
                     int count = 0;
                     try {
@@ -75,7 +75,7 @@ public class FileManager {
                     count = 0;
                     try {
 
-                        for (SpaceMarine elem : marinesCollection) {
+                        for (SpaceMarine elem : collection) {
                             dublicate[count] = elem.getId();
                             if (elem.getId() <= 0) {
                                 Console.printerror("The file has a negative ID, overwrite the file and try again");

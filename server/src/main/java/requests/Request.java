@@ -1,6 +1,7 @@
 package requests;
 import java.io.Serializable;
 import data.SpaceMarine;
+import data.User;
 import utils.MarineAsker;
 
 public class Request implements Serializable {
@@ -8,11 +9,13 @@ public class Request implements Serializable {
     private String argument;
     private SpaceMarine spaceMarine;
     static final long serialVersionUID = 1L;
+    private User user;
 
-    public Request(String commandname, String argument, SpaceMarine spaceMarine){
+    public Request(String commandname, String argument, SpaceMarine spaceMarine, User user){
         this.commandname = commandname;
         this.argument = argument;
         this.spaceMarine = spaceMarine;
+        this.user = user;
     }
 
     public String getCommandName(){
@@ -29,4 +32,5 @@ public class Request implements Serializable {
         System.out.println(commandname);
         System.out.println(argument);
     }
+    public User getUser(){return user;}
 }

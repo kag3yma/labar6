@@ -4,7 +4,6 @@ import data.SpaceMarine;
 import exceptions.CollectionIsEmptyException;
 import exceptions.ElementAmountException;
 import exceptions.MarineNotFoundException;
-import exceptions.WrongAmountOfElementsException;
 import network.TCPServer;
 import requests.Request;
 import utils.CollectionHandler;
@@ -38,7 +37,7 @@ public class RemoveByIdCommand extends AbstractCommand {
 
 
     @Override
-    public void execute(Request request) {
+    public String execute(Request request) {
         if(argCheck(request.getArguments())) {
             try{
                 PrintWriter output = new PrintWriter(server.getClientSocket().getOutputStream(), true);
@@ -57,4 +56,5 @@ public class RemoveByIdCommand extends AbstractCommand {
             output.println("There is no soldier with this ID in the collection!");
         }
     }catch (IOException e){ Console.printerror(e.getMessage());}}
-}}
+        return null;
+    }}

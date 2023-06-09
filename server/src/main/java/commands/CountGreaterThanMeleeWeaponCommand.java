@@ -3,7 +3,6 @@ package commands;
 import data.MeleeWeapon;
 import data.SpaceMarine;
 import exceptions.ElementAmountException;
-import exceptions.WrongAmountOfElementsException;
 import network.TCPServer;
 import requests.Request;
 import utils.CollectionHandler;
@@ -35,7 +34,7 @@ public class CountGreaterThanMeleeWeaponCommand extends AbstractCommand {
 
 
     @Override
-    public void execute(Request request) {
+    public String execute(Request request) {
         if (argCheck(request.getArguments())) {
         try {
             PrintWriter output = new PrintWriter(server.getClientSocket().getOutputStream(), true);
@@ -50,5 +49,6 @@ public class CountGreaterThanMeleeWeaponCommand extends AbstractCommand {
             System.out.println("This element is not in the list!");
         }catch(IOException ioe){Console.printerror(ioe.getMessage());}
     }
+        return null;
     }
 }

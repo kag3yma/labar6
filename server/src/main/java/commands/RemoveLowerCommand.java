@@ -1,18 +1,13 @@
 package commands;
 
-import data.SpaceMarine;
 import exceptions.ElementAmountException;
-import exceptions.IncorrectInputInScriptException;
-import exceptions.WrongAmountOfElementsException;
 import network.TCPServer;
 import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
-import utils.MarineAsker;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDateTime;
 
 public class RemoveLowerCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
@@ -35,7 +30,7 @@ public class RemoveLowerCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(Request request) {
+    public String execute(Request request) {
         if(argCheck(request.getArguments())){
             try{
                 PrintWriter output = new PrintWriter(server.getClientSocket().getOutputStream(), true);
@@ -46,6 +41,7 @@ public class RemoveLowerCommand extends AbstractCommand {
             } else output.println("Collection is empty!");
         }catch(IOException e){Console.printerror(e.getMessage());}
         }
+        return null;
     }
 }
 

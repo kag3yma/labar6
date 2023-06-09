@@ -5,7 +5,7 @@ import exceptions.NehvataetArgumentaException;
 import requests.Request;
 import utils.CommandHelper;
 import utils.MarineAsker;
-
+import data.User;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
@@ -17,7 +17,7 @@ public class TCPClient {
     private String host = "localhost";
     private int port = 4444;
     private SocketChannel clientSocket;
-    Scanner userScanner = new Scanner(System.in);
+
     public boolean connectToServer() throws IOException {
         try{
             this.clientSocket = SocketChannel.open(new InetSocketAddress(host, port));
@@ -32,7 +32,7 @@ public class TCPClient {
         this.clientSocket.close();
     }
 
-    public boolean sendRequest(String input) throws IOException, InterruptedException {
+    public boolean sendRequest(String input, User user) throws IOException, InterruptedException {
         String [] tokens = input.split("\\s+");
         try{
         if ((tokens.length<2) || (tokens.length>3) ) throw  new NehvataetArgumentaException();} catch (NehvataetArgumentaException e){
@@ -60,7 +60,7 @@ public class TCPClient {
         }
 
         if (command.equals("execute_script")){
-            new ExecuteScriptCommand(CommandHelper.commandList(), this).execute(argument);
+            new ExecuteScriptCommand(CommandHelper.commandList(), this, user).execute(argument);
             return true;
         }
 
@@ -73,9 +73,9 @@ public class TCPClient {
             InputStream in = new BufferedInputStream(clientSocket.socket().getInputStream());
             if (command.equals("add") || command.equals("update") || command.equals("add_if_max")
             || command.equals("add_if_min") || command.equals("remove_lower")){
-                objectOutput.writeObject(new Request(command, argument, new MarineAsker().MarineCreator()));
+                objectOutput.writeObject(new Request(command, argument, new MarineAsker().MarineCreator(user), user));
             } else {
-                objectOutput.writeObject(new Request(command, argument, null));
+                objectOutput.writeObject(new Request(command, argument, null, user));
             }
 
             String str_in = new String(in.readAllBytes(), StandardCharsets.UTF_8);
@@ -85,5 +85,18 @@ public class TCPClient {
             closeConnection();
         }
         return true;
+    }
+    public String sendRequest(Request request)throws IOException, InterruptedException{
+        if (connectToServer()){
+            ObjectOutput objectOutput = new ObjectOutputStream(this.clientSocket.socket().getOutputStream());
+            InputStream in = clientSocket.socket().getInputStream();
+            objectOutput.writeObject(request);
+            byte[] buffer = new byte[1024];
+            int bytesRead = in.read(buffer);
+            String message = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
+            closeConnection();
+            return (message.trim()+"\n");
+        }
+        return "";
     }
 }

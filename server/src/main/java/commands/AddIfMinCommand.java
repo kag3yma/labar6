@@ -2,14 +2,10 @@ package commands;
 
 import data.SpaceMarine;
 import exceptions.ElementAmountException;
-import exceptions.IncorrectInputInScriptException;
-import exceptions.WrongAmountOfElementsException;
 import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
 import utils.MarineAsker;
-
-import java.time.LocalDateTime;
 
 public class AddIfMinCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
@@ -31,7 +27,7 @@ public class AddIfMinCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(Request request) {
+    public String execute(Request request) {
         if (argCheck(request.getArguments())) {
             SpaceMarine spaceMarine = request.getSpaceMarine();
             spaceMarine.setId(collectionHandler.generateNextId());
@@ -42,5 +38,6 @@ public class AddIfMinCommand extends AbstractCommand {
                 } else
                     Console.printerror("The value of the soldier is greater than the value of the smallest of the soldiers!");
             }
-        }
+        return null;
+    }
     }

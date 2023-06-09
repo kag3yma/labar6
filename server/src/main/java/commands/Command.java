@@ -12,5 +12,5 @@ public interface  Command {
     boolean argCheck(String arg);
 
 
-    void execute(Request request);
+    String execute(Request request);
 }

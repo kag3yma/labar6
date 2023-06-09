@@ -1,7 +1,6 @@
 package commands;
 
 import exceptions.ElementAmountException;
-import exceptions.WrongAmountOfElementsException;
 import network.TCPServer;
 import requests.Request;
 import utils.CollectionHandler;
@@ -32,7 +31,7 @@ public class InfoCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(Request request) {
+    public String execute(Request request) {
         if(argCheck(request.getArguments())){
             try {
                 PrintWriter output = new PrintWriter(server.getClientSocket().getOutputStream(), true);
@@ -50,5 +49,7 @@ public class InfoCommand extends AbstractCommand {
                 output.println(" Last save date: " + lastSaveTimeString);
                 output.println(" Date of last initialization: " + lastInitTimeString);
             }catch (IOException e){ Console.printerror(e.getMessage());}
-    }}
+    }
+        return null;
+    }
 }

@@ -2,7 +2,6 @@ package commands;
 
 
 import exceptions.ElementAmountException;
-import exceptions.WrongAmountOfElementsException;
 import network.TCPServer;
 import requests.Request;
 import utils.CollectionHandler;
@@ -32,7 +31,7 @@ public class AverageOfHealthCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(Request request) {
+    public String execute(Request request) {
         if (argCheck(request.getArguments())) {
             try{
             PrintWriter output = new PrintWriter(server.getClientSocket().getOutputStream(), true);
@@ -40,4 +39,5 @@ public class AverageOfHealthCommand extends AbstractCommand {
                 output.println(collectionHandler.averageHealth());
             } else output.println("Collection is empty!");
     }catch(IOException ioe){Console.printerror(ioe.getMessage());}}
-}}
+        return null;
+    }}

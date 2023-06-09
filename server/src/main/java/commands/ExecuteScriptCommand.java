@@ -2,7 +2,6 @@ package commands;
 
 import exceptions.ElementAmountException;
 import exceptions.RecursionException;
-import exceptions.WrongAmountOfElementsException;
 import requests.Request;
 import utils.Console;
 
@@ -34,7 +33,7 @@ public class ExecuteScriptCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(Request request){
+    public String execute(Request request){
         if(argCheck(request.getArguments())){
             try (BufferedReader reader = new BufferedReader(new FileReader(request.getArguments()))) {
                 String command;
@@ -69,5 +68,6 @@ public class ExecuteScriptCommand extends AbstractCommand {
             }
         }
         prevScripts.clear();
+        return null;
     }
 }

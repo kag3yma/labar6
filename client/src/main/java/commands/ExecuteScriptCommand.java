@@ -1,6 +1,7 @@
 package commands;
 
 
+import data.User;
 import exceptions.ElementAmountException;
 import exceptions.RecursionException;
 import network.TCPClient;
@@ -13,10 +14,12 @@ import java.util.HashMap;
 public class ExecuteScriptCommand extends AbstractCommand {
     private HashMap<String, String> map;
     private TCPClient client;
-    public ExecuteScriptCommand(HashMap<String, String> map, TCPClient client) {
+    private User user;
+    public ExecuteScriptCommand(HashMap<String, String> map, TCPClient client, User user) {
         super("execute_script", "execute script from specified file");
         this.map = map;
         this.client = client;
+        this.user = user;
     }
     @Override
     public boolean argCheck(String arg){
@@ -58,7 +61,7 @@ public class ExecuteScriptCommand extends AbstractCommand {
                     String commandName = tokens[0];
                     if(map.containsKey(commandName)){
                         try {
-                            client.sendRequest(command);
+                            client.sendRequest(command,user);
                         } catch (InterruptedException ie){
                             Console.printerror(ie.getMessage());
                         }

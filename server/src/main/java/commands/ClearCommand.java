@@ -1,7 +1,6 @@
 package commands;
 
 import exceptions.ElementAmountException;
-import exceptions.WrongAmountOfElementsException;
 import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
@@ -24,9 +23,11 @@ public class ClearCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(Request request) {
+    public String execute(Request request) {
         if (argCheck(request.getArguments())) {
             collectionHandler.clearCollection();
             Console.println("Collection cleared!");
-    }}
+    }
+        return null;
+    }
 }

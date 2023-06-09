@@ -1,12 +1,9 @@
 package commands;
 
 import exceptions.ElementAmountException;
-import exceptions.WrongAmountOfElementsException;
 import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
-
-import java.io.IOException;
 
 public class SaveCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
@@ -25,10 +22,11 @@ public class SaveCommand extends AbstractCommand {
         return false;
     }
     @Override
-    public void execute(Request request){
+    public String execute(Request request){
         if(argCheck(request.getArguments())){
                 collectionHandler.saveCollection();
         }
+        return null;
     }
 
 }

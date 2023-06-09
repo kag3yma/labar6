@@ -2,7 +2,6 @@ package commands;
 
 import data.SpaceMarine;
 import exceptions.ElementAmountException;
-import exceptions.WrongAmountOfElementsException;
 import network.TCPServer;
 import requests.Request;
 import utils.CollectionHandler;
@@ -33,7 +32,7 @@ public class FilterStartsWithNameCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(Request request) {
+    public String execute(Request request) {
         if (argCheck(request.getArguments())) {
             try{
                 PrintWriter output = new PrintWriter(server.getClientSocket().getOutputStream(), true);
@@ -42,5 +41,6 @@ public class FilterStartsWithNameCommand extends AbstractCommand {
                 for(SpaceMarine marine: marinesNames) output.println(marine.getName());
             } else output.println("No matches found!");
         }catch(IOException ioe){Console.printerror(ioe.getMessage());}}
+        return null;
     }
 }

@@ -29,7 +29,7 @@ public class MarineAsker {
         this.userScanner = new Scanner(System.in);
     }
 
-    public SpaceMarine MarineCreator() {
+    public SpaceMarine MarineCreator(User user) {
         try{if(askWantChapter()) {return new SpaceMarine(
                 0L,
                 askName(),
@@ -39,7 +39,8 @@ public class MarineAsker {
                 askHeight(),
                 askWeaponType(),
                 askMeleeWeapon(),
-                askChapter());} else {return new SpaceMarine(
+                askChapter(),
+                user.getLogin());} else {return new SpaceMarine(
                 0L,
                 askName(),
                 LocalDateTime.now(),
@@ -48,8 +49,10 @@ public class MarineAsker {
                 askHeight(),
                 askWeaponType(),
                 askMeleeWeapon(),
-                null);}}catch (IncorrectInputInScriptException e){
+                null,
+                user.getLogin());}}catch (IncorrectInputInScriptException e){
             Console.printerror("Incorrect input");
+
         }
     return null;}
 

@@ -7,8 +7,6 @@ import utils.CollectionHandler;
 import utils.Console;
 import utils.MarineAsker;
 
-import java.time.LocalDateTime;
-
 public class UpdateCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
     private MarineAsker marineAsker;
@@ -33,7 +31,7 @@ public class UpdateCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(Request request){
+    public String execute(Request request){
         if(argCheck(request.getArguments())){
             for(SpaceMarine spaceMarine :  collectionHandler.getCollection()){
                 if(spaceMarine.getId()==(Long.valueOf(request.getArguments()))){
@@ -44,5 +42,6 @@ public class UpdateCommand extends AbstractCommand {
                 }
             }
         }
+        return null;
     }
 }

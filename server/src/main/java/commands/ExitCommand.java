@@ -1,7 +1,6 @@
 package commands;
 
 import exceptions.ElementAmountException;
-import exceptions.WrongAmountOfElementsException;
 import requests.Request;
 import utils.Console;
 
@@ -21,9 +20,10 @@ public class ExitCommand extends AbstractCommand {
         return false;
     }
     @Override
-    public void execute(Request request){
+    public String execute(Request request){
         if(argCheck(request.getArguments())){
             System.exit(0);
         }
+        return null;
     }//WIP
 }

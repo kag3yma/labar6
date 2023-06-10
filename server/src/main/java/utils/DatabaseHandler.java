@@ -13,8 +13,8 @@ import java.util.HashSet;
 public class DatabaseHandler {
 
     Connection connection = null;
-    String user = "332890";
-    String password = "123zet";
+    String user = "s332890";
+    String password = "McClHCMnPH2uM2Rb";
     String url = "jdbc:postgresql://localhost:5432/studs";
     private static final Logger logger = (Logger) LoggerFactory.getLogger(DatabaseHandler.class);
 

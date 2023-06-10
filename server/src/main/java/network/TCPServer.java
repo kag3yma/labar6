@@ -21,7 +21,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class TCPServer {
     private ServerSocketChannel serverSocketChannel;
-    private int port = 3333;
+    private int port = 4444;
     protected SocketChannel clientSocket;
     private static final Logger logger = (Logger) LoggerFactory.getLogger(TCPServer.class);
     BlockingQueue<String> messageQueue = new LinkedBlockingQueue<>();

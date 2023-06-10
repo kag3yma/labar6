@@ -35,7 +35,7 @@ public class CountGreaterThanMeleeWeaponCommand extends AbstractCommand {
     public String execute(Request request) {
         if (argCheck(request.getArguments())) {
             MeleeWeapon meleeWeapon = MeleeWeapon.valueOf(request.getArguments().toUpperCase());
-            HashSet<SpaceMarine> marinesMelee = collectionHandler.enumerationMelee(meleeWeapon);
+            HashSet marinesMelee = collectionHandler.enumerationMelee(meleeWeapon);
             int quantityMelee = (int) collectionHandler.getCollection().stream()
                     .filter(spaceMarine -> spaceMarine.getMeleeWeapon() == meleeWeapon)
                     .count();

@@ -32,45 +32,38 @@ public class TCPClient {
         this.clientSocket.close();
     }
 
-    public boolean sendRequest(String input, User user) throws IOException, InterruptedException {
-        String [] tokens = input.split("\\s+");
-        try{
-        if ((tokens.length<2) || (tokens.length>3) ) throw  new NehvataetArgumentaException();} catch (NehvataetArgumentaException e){
-            Console.printerror("Wrong number of Arguments");
-            return false;
-        }
+    public String sendRequest(String input, User user) throws IOException, InterruptedException {
+        String[] tokens = input.split("\\s+");
         String command = tokens[0];
         String argument = tokens[1];
 
-        if (!CommandHelper.commandList().containsKey(command)){
-            Console.printerror("no such command");
-            return false;
+        if(!CommandHelper.commandList().containsKey(command)){
+            Console.println("Команды " + "\u001B[31m" + command + "\u001B[0m" +" не существует");
+            return "";
         }
 
-        if (command.equals("exit")){
-            ExitCommand exitCommand = new ExitCommand();
-            exitCommand.execute(argument);
-            return true;
+        if(command.equals("exit")){
+            new ExitCommand().execute(argument);
+            return "";
         }
 
-        if (command.equals("help")){
-            HelpCommand helpCommand = new HelpCommand();
-            helpCommand.execute(argument);
-            return true;
+        if(command.equals("help")){
+            new HelpCommand().execute(argument);
+            return "";
         }
 
-        if (command.equals("execute_script")){
+        if(command.equals("execute_script")){
             new ExecuteScriptCommand(CommandHelper.commandList(), this, user).execute(argument);
-            return true;
+            return "";
         }
 
-        if (!CommandHelper.argCheckMap().get(command).argCheck(argument)){
-            return false;
+        if(!CommandHelper.argCheckMap().get(command).argCheck(argument)){
+            return "";
         }
 
         if (connectToServer()){
             ObjectOutputStream objectOutput = new ObjectOutputStream(this.clientSocket.socket().getOutputStream());
-            InputStream in = new BufferedInputStream(clientSocket.socket().getInputStream());
+            InputStream in = clientSocket.socket().getInputStream();
             if (command.equals("add") || command.equals("update") || command.equals("add_if_max")
             || command.equals("add_if_min") || command.equals("remove_lower")){
                 objectOutput.writeObject(new Request(command, argument, new MarineAsker().MarineCreator(user), user));
@@ -78,13 +71,13 @@ public class TCPClient {
                 objectOutput.writeObject(new Request(command, argument, null, user));
             }
 
-            String str_in = new String(in.readAllBytes(), StandardCharsets.UTF_8);
-            Console.print(str_in);
-            in.close();
-            objectOutput.close();
+            byte[] buffer = new byte[1024];
+            int bytesRead = in.read(buffer);
+            String message = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
             closeConnection();
+            return(message.trim()+ "\n");
         }
-        return true;
+        return "";
     }
     public String sendRequest(Request request)throws IOException, InterruptedException{
         if (connectToServer()){

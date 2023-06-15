@@ -15,9 +15,9 @@ public class App {
     public static final String PS1 = "$ ";
     public static final String PS2 = "> ";
     public static void main(String[] args) {
-        Scanner userScanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         CollectionHandler collectionHandler = new CollectionHandler();
-        MarineAsker marineAsker = new MarineAsker(userScanner);
+        MarineAsker marineAsker = new MarineAsker(scanner);
 
         TCPServer server = new TCPServer();
         DatabaseHandler databaseHandler = new DatabaseHandler();
@@ -68,9 +68,9 @@ public class App {
 
         new Thread(() ->{
             while(true){
-                String command = userScanner.nextLine();
+                String command = scanner.nextLine();
                 if(command.trim().equals(exit.getName())){
-                    userScanner.close();
+                    scanner.close();
                     save.execute(new Request("save", "placeholderArg",null,null));
                     exit.execute(new Request("exit", "placeholderArg",null,null));
                 }

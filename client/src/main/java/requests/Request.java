@@ -14,6 +14,7 @@ public class Request implements Serializable {
         this.commandname = commandName;
         this.argument = argument;
         this.spaceMarine = spaceMarine;
+        this.user = user;
     }
 
     public String getCommandName(){

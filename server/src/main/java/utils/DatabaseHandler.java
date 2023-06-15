@@ -37,7 +37,7 @@ public class DatabaseHandler {
                 PreparedStatement statement = connection.prepareStatement(
                         "INSERT INTO " + "space_marine" +
                                 "(name, creation_date, coordinates_x, coordinates_y, health, height, weapon_type, melee_weapon, chapter_name, chapter_world, chapter_marines_count, chapter_parent_legion, creator)" +
-                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 statement.setString(1, spaceMarine.getName());
                 statement.setFloat(3, spaceMarine.getCoordinates().getX());
                 statement.setFloat(4, spaceMarine.getCoordinates().getY());
@@ -121,10 +121,10 @@ public class DatabaseHandler {
     public void register(String login, String pwd) throws SQLException {
         Connection connection = connect();
         PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO user" +
+                "INSERT INTO users" +
                         "(login, password)" +
                         "VALUES (?, ?)");
-        Hasher hasher = new Hasher("SHA-254");
+        Hasher hasher = new Hasher("SHA-224");
         statement.setString(1, login);
         statement.setString(2, hasher.encode(pwd));
         int rowsAffected = statement.executeUpdate();
@@ -136,7 +136,7 @@ public class DatabaseHandler {
         public boolean checkIfUserExists(String login, String pwd){
         try {
             Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM user WHERE login = ? AND password = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE login = ? AND password = ?");
             statement.setString(1, login);
             statement.setString(2, pwd);
 

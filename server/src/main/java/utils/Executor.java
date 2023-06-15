@@ -6,7 +6,6 @@ import requests.Request;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.concurrent.BlockingQueue;
-//Либо блять здесь реализуется многопоточный ответ, я до конца не врубился, но может здесь обработка запроса
 public class Executor implements Runnable{
     HashMap<String, Command> map;
     Socket socket;

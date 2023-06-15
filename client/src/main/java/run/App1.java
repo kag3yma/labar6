@@ -26,7 +26,7 @@ public class App1 {
         while (true){
             Console.print(PS1);
             String input = scanner.nextLine();
-            Console.print(client.sendRequest(input+ "placeholderArg", userHelper.user));
+            Console.print(client.sendRequest(input + " placeholderArg", userHelper.user));
         }
     }
 }

@@ -18,14 +18,13 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         CollectionHandler collectionHandler = new CollectionHandler();
         MarineAsker marineAsker = new MarineAsker(scanner);
-
-        TCPServer server = new TCPServer();
         DatabaseHandler databaseHandler = new DatabaseHandler();
         try{
             collectionHandler.setCollection(databaseHandler.getAllSpaceMarines());
         }catch (SQLException e){
             e.printStackTrace();
         }
+        TCPServer server = new TCPServer();
 
         Command info = new InfoCommand(collectionHandler);
         Command show = new ShowCommand(collectionHandler);

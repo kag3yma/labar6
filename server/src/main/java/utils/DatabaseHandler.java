@@ -13,8 +13,8 @@ import java.util.HashSet;
 public class DatabaseHandler {
 
     Connection connection = null;
-    String user = "s9009090";
-    String password = "ddsdsddb";
+    String user = "s332890";
+    String password = "McClHCMnPH2uM2Rb";
     String url = "jdbc:postgresql://localhost:5432/studs";
     private static final Logger logger = (Logger) LoggerFactory.getLogger(DatabaseHandler.class);
 
@@ -118,18 +118,20 @@ public class DatabaseHandler {
             e.printStackTrace();
         }
     }
-    public void register(String login, String pwd) throws SQLException {
-        Connection connection = connect();
-        PreparedStatement statement = connection.prepareStatement(
+    public void register(String login, String pwd) throws SQLException{
+        Connection conn = connect();
+        PreparedStatement statement = conn.prepareStatement(
                 "INSERT INTO users" +
                         "(login, password)" +
                         "VALUES (?, ?)");
+
         Hasher hasher = new Hasher("SHA-224");
         statement.setString(1, login);
         statement.setString(2, hasher.encode(pwd));
+
         int rowsAffected = statement.executeUpdate();
         if (rowsAffected == 0) {
-            throw new SQLException("Inserting space marine failed, no rows affected");
+            throw new SQLException("Registring failed, no rows affected.");
         }
     }
 

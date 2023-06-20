@@ -67,7 +67,6 @@ public class UserHelper {
             if (login.trim().equals("Now you are able to use all commands. Use help to see all available commands".trim())){
                 return true;
             } else {
-                System.out.println("пес");
                 ask(scanner);
             }
         }return ask(scanner);

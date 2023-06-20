@@ -40,6 +40,6 @@ public class AddIfMaxCommand extends AbstractCommand {
             } else
                 Console.printerror("The value of the soldier is smaller than the value of the greatest of the soldiers!");
         }
-        return null;
+        return "";
     }
 }

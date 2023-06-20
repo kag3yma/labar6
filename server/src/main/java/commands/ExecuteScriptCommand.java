@@ -68,6 +68,6 @@ public class ExecuteScriptCommand extends AbstractCommand {
             }
         }
         prevScripts.clear();
-        return null;
+        return "";
     }
 }

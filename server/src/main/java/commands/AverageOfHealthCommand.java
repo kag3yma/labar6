@@ -40,7 +40,11 @@ public class AverageOfHealthCommand extends AbstractCommand {
             PrintWriter output = new PrintWriter(stringWriter, true);
             if (collectionHandler.averageHealth() > 0) {
                 output.println(collectionHandler.averageHealth());
-            } else output.println("Collection is empty!");
+                return stringWriter.toString();
+            } else {
+                output.println("Collection is empty!");
+                return stringWriter.toString();
+            }
         }return "";
     }
 }

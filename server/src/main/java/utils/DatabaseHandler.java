@@ -12,9 +12,10 @@ import java.util.HashSet;
 
 public class DatabaseHandler {
 
+
     Connection connection = null;
-    String user = "s332890";
-    String password = "McClHCMnPH2uM2Rb";
+    String user = "s368314";
+    String password = "ekChr2zlWjz9tq1g";
     String url = "jdbc:postgresql://localhost:5432/studs";
     private static final Logger logger = (Logger) LoggerFactory.getLogger(DatabaseHandler.class);
 
@@ -39,20 +40,21 @@ public class DatabaseHandler {
                                 "(name, creation_date, coordinates_x, coordinates_y, health, height, weapon_type, melee_weapon, chapter_name, chapter_world, chapter_marines_count, chapter_parent_legion, creator)" +
                                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 statement.setString(1, spaceMarine.getName());
+               // LocalDate creationDate = LocalDate.from(spaceMarine.getCreationDate());
+               // LocalTime creationTime = LocalTime.of(23, 0, 0);
+               //LocalDateTime dateTime = LocalDateTime.of(creationDate, creationTime);
+                LocalDateTime dateTime = spaceMarine.getCreationDate();
+                statement.setTimestamp(2, Timestamp.valueOf(dateTime));
                 statement.setFloat(3, spaceMarine.getCoordinates().getX());
                 statement.setFloat(4, spaceMarine.getCoordinates().getY());
-                LocalDate creationDate = LocalDate.from(spaceMarine.getCreationDate());
-                LocalTime creationTime = LocalTime.of(23, 0, 0);
-                LocalDateTime dateTime = LocalDateTime.of(creationDate, creationTime);
-                statement.setTimestamp(2, Timestamp.valueOf(dateTime));
                 statement.setFloat(5,spaceMarine.getHealth());
                 statement.setFloat(6,spaceMarine.getHeight());
-                statement.setObject(7,spaceMarine.getWeaponType());
-                statement.setObject(8,spaceMarine.getMeleeWeapon());
+                statement.setObject(7,spaceMarine.getWeaponType(), Types.OTHER);
+                statement.setObject(8,spaceMarine.getMeleeWeapon(), Types.OTHER);
                 statement.setString(9,spaceMarine.getChapter().getName());
                 statement.setString(10,spaceMarine.getChapter().getWorld());
-                statement.setString(11,spaceMarine.getChapter().getParentLegion());
-                statement.setLong(12,spaceMarine.getChapter().getMarinesCount());
+                statement.setLong(11,spaceMarine.getChapter().getMarinesCount());
+                statement.setString(12,spaceMarine.getChapter().getParentLegion());
                 statement.setString(13,spaceMarine.getCreator());
 
                 spaceMarine.getSaved();
@@ -135,7 +137,7 @@ public class DatabaseHandler {
         }
     }
 
-        public boolean checkIfUserExists(String login, String pwd){
+    public boolean checkIfUserExists(String login, String pwd){
         try {
             Connection connection = connect();
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE login = ? AND password = ?");

@@ -84,6 +84,7 @@ public class TCPClient {
             ObjectOutput objectOutput = new ObjectOutputStream(this.clientSocket.socket().getOutputStream());
             InputStream in = clientSocket.socket().getInputStream();
             objectOutput.writeObject(request);
+
             byte[] buffer = new byte[1024];
             int bytesRead = in. read(buffer);
             String message = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);

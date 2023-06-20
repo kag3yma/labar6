@@ -64,9 +64,10 @@ public class UserHelper {
             user = createUser(scanner);
             String login = sendLogin(user);
             Console.println(login);
-            if (login.trim().equals("Now you're able to use commands, use \"help\" to see all the available commands")){
+            if (login.trim().equals("Now you are able to use all commands. Use help to see all available commands".trim())){
                 return true;
             } else {
+                System.out.println("пес");
                 ask(scanner);
             }
         }return ask(scanner);

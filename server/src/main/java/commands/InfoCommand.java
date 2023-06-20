@@ -40,12 +40,13 @@ public class InfoCommand extends AbstractCommand {
                 String lastSaveTimeString = (lastSaveTime == null) ? "this session has not yet been saved" :
                         lastSaveTime.toLocalDate().toString() + " " + lastSaveTime.toLocalTime().toString();
 
-                output += ("Collection details:");
-                output += (" Type: " + collectionHandler.collectionType());
-                output += (" Amount of elements: " + collectionHandler.collectionSize());
-                output += (" Last save date: " + lastSaveTimeString);
-                output += (" Date of last initialization: " + lastInitTimeString);
+                output += ("\nCollection details:");
+                output += ("\n Type: " + collectionHandler.collectionType());
+                output += ("\n Amount of elements: " + collectionHandler.collectionSize());
+                output += ("\n Last save date: " + lastSaveTimeString);
+                output += ("\n Date of last initialization: " + lastInitTimeString);
+            return output;
     }
-        return null;
+        return "";
     }
 }

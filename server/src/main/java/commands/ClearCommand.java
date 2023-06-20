@@ -28,6 +28,6 @@ public class ClearCommand extends AbstractCommand {
             collectionHandler.clearCollection();
             Console.println("Collection cleared!");
     }
-        return null;
+        return "";
     }
 }

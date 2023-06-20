@@ -25,35 +25,35 @@ public class TCPServer {
     BlockingQueue<String> messageQueue = new LinkedBlockingQueue<>();
     BlockingQueue<Request> requestQueue = new LinkedBlockingQueue<>();
     BlockingQueue<Throwable> errorQueue = new LinkedBlockingQueue<>();
-    ExecutorService executorService = Executors.newCachedThreadPool();
 
         //Блокируюшая очередь с ошибками
 
 
-        public void start(HashMap<String, Command> map, CollectionHandler collectionHandler){
-            openServerSocket();
-            while(serverSocketChannel!=null){
-                logger.info("Ожидание подключения...");
-                try{
-                    this.clientSocket = serverSocketChannel.accept();
-                    logger.info( "Подключение успешно");
-                    executorService.submit(new RequestHandler(map, clientSocket, logger, requestQueue, errorQueue));//1
-                    new Thread(new Executor(map, clientSocket.socket(), requestQueue, messageQueue, errorQueue)).start();//2
-                    executorService.submit(new OutputSocketWriter(clientSocket.socket(), messageQueue, errorQueue)); //3
-                } catch (IOException ioe) {
-                    logger.info("Не удалось подключиться к клиенту: " +  ioe.getMessage());
-                }
+    public void start(HashMap<String, Command> map, CollectionHandler collectionHandler) {
+        openServerSocket();
+        ForkJoinPool pool = new ForkJoinPool();
+        while (serverSocketChannel != null) {
+            logger.info("Waiting for connection");
+            try {
+                this.clientSocket = serverSocketChannel.accept();
+                logger.info("Successfully connected");
+                pool.execute(new RequestHandler(map, clientSocket, logger, requestQueue, errorQueue));
+                pool.execute(new OutputSocketWriter(clientSocket.socket(), messageQueue, errorQueue));
+                pool.execute(new Executor(map, clientSocket.socket(), requestQueue, messageQueue, errorQueue));
+            } catch (IOException ioe) {
+                logger.error( "Connection error: ", ioe.getMessage());
             }
-            closeServerSocket();
-            executorService.shutdown();
         }
+        closeServerSocket();
+        pool.shutdown();
+    }
 
         private void openServerSocket() {
             try {
                 serverSocketChannel = ServerSocketChannel.open();
                 serverSocketChannel.bind(new InetSocketAddress("localhost", port));
             } catch (IOException e) {
-                logger.error("Ошибка при открытии соединения"+ e.getMessage());
+                logger.error("Error opening connection"+ e.getMessage());
             }
         }
 
@@ -61,7 +61,7 @@ public class TCPServer {
             try {
                 serverSocketChannel.close();
             } catch (IOException e) {
-                logger.error("Ошибка при закрытии соединения"+ e.getMessage());
+                logger.error("Error closing connection"+ e.getMessage());
             }
         }
 
@@ -89,7 +89,7 @@ public class TCPServer {
                 try {
                     processRequest(map);
                 } catch (Throwable e) {
-                    logger.error( "Ошибка при обработке запроса: " + e.getMessage());
+                    logger.error( "Error processing request: " + e.getMessage());
                     try {
                         errorQueue.put(e);
                         requestQueue.put(new Request("err", "err", null, null));

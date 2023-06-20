@@ -39,6 +39,6 @@ public class AddIfMinCommand extends AbstractCommand {
                 } else
                     Console.printerror("The value of the soldier is greater than the value of the smallest of the soldiers!");
             }
-        return null;
+        return "";
     }
     }

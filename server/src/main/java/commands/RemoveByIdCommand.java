@@ -47,7 +47,9 @@ public class RemoveByIdCommand extends AbstractCommand {
             if (bufferedSpaceMarine.get().getCreator().equals(request.getUser().getLogin())) {
                 bufferedSpaceMarine.ifPresent(collectionHandler::removeFromCollection);
                 databaseHandler.deleteSpaceMarine(bufferedSpaceMarine.get().getId());
-            }
+            }else {
+                return "Can't edit items created by other users";
+        }
         }
         return "";
     }

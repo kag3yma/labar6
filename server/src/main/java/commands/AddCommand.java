@@ -35,6 +35,6 @@ public class AddCommand extends AbstractCommand {
             spaceMarine.setId(collectionHandler.generateNextId());
             collectionHandler.addToCollection(spaceMarine);
     }
-        return null;
+        return "";
     }
 }

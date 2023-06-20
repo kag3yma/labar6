@@ -39,6 +39,7 @@ public class RegisterCommand extends AbstractCommand{
             }else {
                 return "This user already exists";
             }
-        }return "User successfully registered";
+        }
+        return "User successfully registered";
     }
 }

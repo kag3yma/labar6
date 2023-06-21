@@ -36,8 +36,9 @@ public class AddIfMaxCommand extends AbstractCommand {
             collectionHandler.addToCollection(spaceMarine);
             if (collectionHandler.collectionSize() != 0 &&
                     spaceMarine.healthCompareTo(collectionHandler.getById(collectionHandler.getMax())) < 0) {
-                collectionHandler.removeFromCollection(spaceMarine);
                 databaseHandler.deleteSpaceMarine(spaceMarine.getId());
+                collectionHandler.removeFromCollection(spaceMarine);
+
                 Console.printerror("The value of the soldier is smaller than the value of the greatest of the soldiers!");
             } else
                 Console.println("Soldier successfully added!");

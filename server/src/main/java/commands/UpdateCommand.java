@@ -40,6 +40,7 @@ public class UpdateCommand extends AbstractCommand {
                     nMarine.setId(Long.parseLong(request.getArguments()));
                     if(spaceMarine.getCreator().equals(request.getUser().getLogin())){
                         collectionHandler.removeFromCollection(spaceMarine);
+                        databaseHandler.deleteSpaceMarine(spaceMarine.getId());
                         collectionHandler.addToCollection(nMarine);
                     } else {
                         return "Can't edit items created by other users";

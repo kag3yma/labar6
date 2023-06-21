@@ -64,8 +64,8 @@ public class TCPClient {
         if (connectToServer()){
             ObjectOutputStream objectOutput = new ObjectOutputStream(this.clientSocket.socket().getOutputStream());
             InputStream in = clientSocket.socket().getInputStream();
-            if (command.equals("add") || command.equals("update") || command.equals("add_if_max")
-            || command.equals("add_if_min") || command.equals("remove_lower")){
+            if (command.equals("add") || command.equals("add_if_max")
+            || command.equals("add_if_min") || command.equals("update")){
                 objectOutput.writeObject(new Request(command, argument, new MarineAsker().MarineCreator(user), user));
             } else {
                 objectOutput.writeObject(new Request(command, argument, null, user));

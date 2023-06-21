@@ -4,6 +4,7 @@ package network;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ForkJoinPool;
 
 public class OutputSocketWriter implements Runnable {
     private final Socket socket;
@@ -18,17 +19,19 @@ public class OutputSocketWriter implements Runnable {
         this.errorQueue = errorQueue;
     }
     @Override
-    public void run(){
-        try {
-            this.msg = messageQueue.take();
-            if(!socket.isClosed()){
-                PrintWriter outputStream = new PrintWriter(socket.getOutputStream(), true);
-                outputStream.println(msg);
-            }else{
-                System.out.println("Socket is closed");
+    public void run() {
+        ForkJoinPool.commonPool().execute(() -> {
+            try {
+                this.msg = messageQueue.take();
+                if (!socket.isClosed()) {
+                    PrintWriter outputStream = new PrintWriter(socket.getOutputStream(), true);
+                    outputStream.println(msg);
+                } else {
+                    System.out.println("Socket is closed");
+                }
+            } catch (Throwable e) {
+                System.out.println(e.getMessage());
             }
-        }catch (Throwable e){
-            System.out.println(e.getMessage());
-        }
+        });
     }
 }

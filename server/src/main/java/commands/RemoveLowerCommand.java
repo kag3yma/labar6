@@ -45,7 +45,7 @@ public class RemoveLowerCommand extends AbstractCommand {
                     }
                     HashSet<SpaceMarine> filteredList = collectionHandler.getCollection()
                             .stream()
-                            .filter(spaceMarine -> spaceMarine.getId() <= Long.parseLong(request.getArguments()))
+                            .filter(spaceMarine -> spaceMarine.getId() >= Long.parseLong(request.getArguments()))
                             .collect(Collectors.toCollection(HashSet::new));
                     for (SpaceMarine spaceMarine: collectionHandler.getCollection()){
                         if (!filteredList.contains(spaceMarine)){

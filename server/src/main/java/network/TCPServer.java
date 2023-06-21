@@ -31,7 +31,7 @@ public class TCPServer {
 
     public void start(HashMap<String, Command> map, CollectionHandler collectionHandler) {
         openServerSocket();
-        ForkJoinPool pool = new ForkJoinPool();
+        ExecutorService pool = Executors.newCachedThreadPool();
         while (serverSocketChannel != null) {
             logger.info("Waiting for connection");
             try {
@@ -41,7 +41,7 @@ public class TCPServer {
                 pool.execute(new OutputSocketWriter(clientSocket.socket(), messageQueue, errorQueue));
                 pool.execute(new Executor(map, clientSocket.socket(), requestQueue, messageQueue, errorQueue));
             } catch (IOException ioe) {
-                logger.error( "Connection error: ", ioe.getMessage());
+                logger.error("Connection error: ", ioe.getMessage());
             }
         }
         closeServerSocket();

@@ -18,7 +18,7 @@ public class UpdateCommand extends AbstractCommand {
     public boolean argCheck(String arg){
         try{
             if(arg.equals("placeholderArg")) throw new ElementAmountException();
-            Integer.parseInt(arg);
+            Long.parseLong(arg);
 
             return true;
         } catch (ElementAmountException e) {

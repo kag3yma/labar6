@@ -20,7 +20,7 @@ public class UpdateCommand extends AbstractCommand {
     public boolean argCheck(String arg){
         try{
             if(arg.equals("placeholderArg")) throw new ElementAmountException();
-            Integer.parseInt(arg);
+            Long.parseLong(arg);
 
             return true;
         } catch (ElementAmountException e) {
@@ -35,15 +35,14 @@ public class UpdateCommand extends AbstractCommand {
     public String execute(Request request){
         if(argCheck(request.getArguments())){
             for(SpaceMarine spaceMarine :  collectionHandler.getCollection()){
-                if(spaceMarine.getId()==(Long.valueOf(request.getArguments()))){
-                    collectionHandler.removeFromCollection(spaceMarine);
-                    SpaceMarine newSpaceMarine = request.getSpaceMarine();
-                    newSpaceMarine.setId(Long.valueOf(request.getArguments()));
+                if(spaceMarine.getId()==(Long.parseLong(request.getArguments()))){
+                    SpaceMarine nSpaceMarine = request.getSpaceMarine();
+                    nSpaceMarine.setId(Long.parseLong(request.getArguments()));
                     if(spaceMarine.getCreator().equals(request.getUser().getLogin())){
                         collectionHandler.removeFromCollection(spaceMarine);
-                        collectionHandler.addToCollection(newSpaceMarine);
-                    }else {
-                        return "Yo can't edit elements which are not yours";
+                        collectionHandler.addToCollection(nSpaceMarine);
+                    } else {
+                        return "Can't edit items created by other users";
                     }
                 }
             }

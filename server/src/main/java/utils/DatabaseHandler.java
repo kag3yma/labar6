@@ -94,8 +94,8 @@ public class DatabaseHandler {
                 Weapon weapon = Weapon.valueOf(resultSet.getString("weapon_type"));
                 String chapter_name = resultSet.getString("chapter_name");
                 String chapter_world = resultSet.getString("chapter_world");
-                String chapter_parent_legion = resultSet.getString("chapter_parent_legion");
                 long chapter_marines_count = resultSet.getLong("chapter_marines_count");
+                String chapter_parent_legion = resultSet.getString("chapter_parent_legion");
                 String creator = resultSet.getString("creator");
                 Coordinates coordinates = new Coordinates(coordinates_x, coordinates_y);
                 Chapter chapter = new Chapter(chapter_name, chapter_parent_legion, (int) chapter_marines_count, chapter_world);

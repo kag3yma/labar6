@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
+import java.util.Objects;
 
 public class CountGreaterThanMeleeWeaponCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
@@ -36,9 +37,10 @@ public class CountGreaterThanMeleeWeaponCommand extends AbstractCommand {
         if (argCheck(request.getArguments())) {
             MeleeWeapon meleeWeapon = MeleeWeapon.valueOf(request.getArguments().toUpperCase());
             HashSet marinesMelee = collectionHandler.enumerationMelee(meleeWeapon);
-            int quantityMelee = (int) collectionHandler.getCollection().stream()
-                    .filter(spaceMarine -> spaceMarine.getMeleeWeapon() == meleeWeapon)
-                    .count();
+            int quantityMelee = 0;
+            for (Object element : marinesMelee) {
+                quantityMelee = quantityMelee + 1;
+            }
             StringWriter stringWriter = new StringWriter();
             PrintWriter printWriter = new PrintWriter(stringWriter, true);
             printWriter.println("Element amount with melee weapon is higher than: " + quantityMelee);

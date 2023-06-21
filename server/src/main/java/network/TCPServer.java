@@ -32,7 +32,6 @@ public class TCPServer {
 
     public void start(HashMap<String, Command> map, CollectionHandler collectionHandler) {
         openServerSocket();
-        ExecutorService pool = Executors.newCachedThreadPool();
         while (serverSocketChannel != null) {
             logger.info("Waiting for connection");
             try {

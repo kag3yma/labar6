@@ -35,8 +35,9 @@ public class AddIfMinCommand extends AbstractCommand {
             collectionHandler.addToCollection(spaceMarine);
             if (collectionHandler.collectionSize() != 0 ||
                     spaceMarine.healthCompareTo(collectionHandler.getById(collectionHandler.getMin())) > 0) {
-                collectionHandler.removeFromCollection(spaceMarine);
                 databaseHandler.deleteSpaceMarine(spaceMarine.getId());
+                collectionHandler.removeFromCollection(spaceMarine);
+
                 Console.printerror("The value of the soldier is greater than the value of the smallest of the soldiers!");
                 } else
                     Console.println("Soldier successfully added!");

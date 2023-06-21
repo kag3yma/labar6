@@ -16,6 +16,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 public class CollectionHandler{
     private static HashSet<Long> setForId = new HashSet<>();
@@ -124,6 +125,10 @@ public class CollectionHandler{
     public void clearCollection(){
         reentrantLock.lock();
         try {
+            collection =  collection.stream().
+                    limit(0)
+                    .collect(Collectors.toCollection(HashSet::new));
+
             collection.clear();
         }finally {
             reentrantLock.unlock();

@@ -27,7 +27,7 @@ public class CollectionHandler{
 
 
     public CollectionHandler() {
-        this.initDateTime = null;
+        this.initDateTime = LocalDateTime.now();
         this.saveDateTime = null;
         reentrantLock = new ReentrantLock();
         collection = new HashSet<>();
@@ -95,20 +95,14 @@ public class CollectionHandler{
         return "didn't find creation time :(";
     }
 
-    public FileTime getInitDateTime() {
+    public LocalDateTime getInitDateTime() {
         FileTime nothing = null;
         reentrantLock.lock();
         try{
-            Path file = Paths.get("collectionWithMarines.json");
-            FileTime creationTime =
-                    (FileTime) Files.getAttribute(file, "creationTime");
-            return creationTime;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
+            return initDateTime;
+        } finally {
             reentrantLock.unlock();
         }
-        return nothing;
     }
     public LocalDateTime getLastSaveTime() {
         reentrantLock.lock();
@@ -282,8 +276,8 @@ public class CollectionHandler{
                 printWriter.println("creation_date: "+spaceMarine.getCreationDate());
                 printWriter.println("height: "+spaceMarine.getHeight());
                 printWriter.println("health: "+spaceMarine.getHealth());
-                printWriter.println("Chapter: "+spaceMarine.getChapter().getName()+"Parent legion: "+spaceMarine.getChapter().getParentLegion()+"World: "+spaceMarine.getChapter().getWorld()
-                +"Marines Count: "+ spaceMarine.getChapter().getMarinesCount());
+                printWriter.println("Chapter: "+spaceMarine.getChapter().getName()+" | Parent legion: "+spaceMarine.getChapter().getParentLegion()+" | World: "+spaceMarine.getChapter().getWorld()
+                +" | Marines Count: "+ spaceMarine.getChapter().getMarinesCount());
                 printWriter.println("********************************************");
             }
         }finally {
@@ -299,8 +293,8 @@ public class CollectionHandler{
             printWriter.println("creation_date: "+spaceMarine.getCreationDate());
             printWriter.println("height: "+spaceMarine.getHeight());
             printWriter.println("health: "+spaceMarine.getHealth());
-            printWriter.println("Chapter: "+spaceMarine.getChapter().getName()+"Parent legion: "+spaceMarine.getChapter().getParentLegion()+"World: "+spaceMarine.getChapter().getWorld()
-                    +"Marines Count: "+ spaceMarine.getChapter().getMarinesCount());
+            printWriter.println("Chapter: "+spaceMarine.getChapter().getName()+" | Parent legion: "+spaceMarine.getChapter().getParentLegion()+" | World: "+spaceMarine.getChapter().getWorld()
+                    +" | Marines Count: "+ spaceMarine.getChapter().getMarinesCount());
             printWriter.println("********************************************");
         }finally {
             reentrantLock.lock();

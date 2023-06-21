@@ -11,7 +11,7 @@ public class SaveCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
 
     public SaveCommand(CollectionHandler collectionHandler, DatabaseHandler databaseHandler) {
-        super("save", "save collection to file");
+        super("save", "save collection to database");
         this.collectionHandler = collectionHandler;
         this.databaseHandler = databaseHandler;
     }

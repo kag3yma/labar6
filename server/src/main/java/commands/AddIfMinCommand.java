@@ -31,13 +31,15 @@ public class AddIfMinCommand extends AbstractCommand {
     public String execute(Request request) {
         if (argCheck(request.getArguments())) {
             SpaceMarine spaceMarine = request.getSpaceMarine();
-            spaceMarine.setId(collectionHandler.generateNextId());
-            if (collectionHandler.collectionSize() == 0 ||
-                    spaceMarine.healthCompareTo(collectionHandler.getById(collectionHandler.getMin())) < 0) {
-                collectionHandler.addToCollection(spaceMarine);
-                Console.println("Soldier successfully added!");
+            spaceMarine.setId(databaseHandler.saveMarine(spaceMarine));
+            collectionHandler.addToCollection(spaceMarine);
+            if (collectionHandler.collectionSize() != 0 ||
+                    spaceMarine.healthCompareTo(collectionHandler.getById(collectionHandler.getMin())) > 0) {
+                collectionHandler.removeFromCollection(spaceMarine);
+                databaseHandler.deleteSpaceMarine(spaceMarine.getId());
+                Console.printerror("The value of the soldier is greater than the value of the smallest of the soldiers!");
                 } else
-                    Console.printerror("The value of the soldier is greater than the value of the smallest of the soldiers!");
+                    Console.println("Soldier successfully added!");
             }
         return "";
     }

@@ -57,7 +57,7 @@ public class DatabaseHandler {
                 statement.setString(12,spaceMarine.getChapter().getParentLegion());
                 statement.setString(13,spaceMarine.getCreator());
 
-                spaceMarine.getSaved();
+                spaceMarine.setSaved();
                 int rowsAffected = statement.executeUpdate();
                 if (rowsAffected == 0){
                     throw new SQLException("Inserting space_marine failed, no rows affected");

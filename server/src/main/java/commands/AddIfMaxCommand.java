@@ -32,13 +32,15 @@ public class AddIfMaxCommand extends AbstractCommand {
     public String execute(Request request) {
         if (argCheck(request.getArguments())) {
             SpaceMarine spaceMarine = request.getSpaceMarine();
-            spaceMarine.setId(collectionHandler.generateNextId());
-            if (collectionHandler.collectionSize() == 0 ||
-                    spaceMarine.healthCompareTo(collectionHandler.getById(collectionHandler.getMax())) > 0) {
-                collectionHandler.addToCollection(spaceMarine);
-                Console.println("Soldier successfully added!");
-            } else
+            spaceMarine.setId(databaseHandler.saveMarine(spaceMarine));
+            collectionHandler.addToCollection(spaceMarine);
+            if (collectionHandler.collectionSize() != 0 &&
+                    spaceMarine.healthCompareTo(collectionHandler.getById(collectionHandler.getMax())) < 0) {
+                collectionHandler.removeFromCollection(spaceMarine);
+                databaseHandler.deleteSpaceMarine(spaceMarine.getId());
                 Console.printerror("The value of the soldier is smaller than the value of the greatest of the soldiers!");
+            } else
+                Console.println("Soldier successfully added!");
         }
         return "";
     }

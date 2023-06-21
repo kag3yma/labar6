@@ -32,7 +32,7 @@ public class AddCommand extends AbstractCommand {
     public String execute(Request request) {
         if (argCheck(request.getArguments())) {
             SpaceMarine spaceMarine = request.getSpaceMarine();
-            spaceMarine.setId(collectionHandler.generateNextId());
+            spaceMarine.setId(databaseHandler.saveMarine(spaceMarine));
             collectionHandler.addToCollection(spaceMarine);
     }
         return "";

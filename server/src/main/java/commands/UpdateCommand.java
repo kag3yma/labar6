@@ -36,11 +36,11 @@ public class UpdateCommand extends AbstractCommand {
         if(argCheck(request.getArguments())){
             for(SpaceMarine spaceMarine :  collectionHandler.getCollection()){
                 if(spaceMarine.getId()==(Long.parseLong(request.getArguments()))){
-                    SpaceMarine nSpaceMarine = request.getSpaceMarine();
-                    nSpaceMarine.setId(Long.parseLong(request.getArguments()));
+                    SpaceMarine nMarine = request.getSpaceMarine();
+                    nMarine.setId(Long.parseLong(request.getArguments()));
                     if(spaceMarine.getCreator().equals(request.getUser().getLogin())){
                         collectionHandler.removeFromCollection(spaceMarine);
-                        collectionHandler.addToCollection(nSpaceMarine);
+                        collectionHandler.addToCollection(nMarine);
                     } else {
                         return "Can't edit items created by other users";
                     }

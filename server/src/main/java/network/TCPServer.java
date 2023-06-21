@@ -25,6 +25,7 @@ public class TCPServer {
     BlockingQueue<String> messageQueue = new LinkedBlockingQueue<>();
     BlockingQueue<Request> requestQueue = new LinkedBlockingQueue<>();
     BlockingQueue<Throwable> errorQueue = new LinkedBlockingQueue<>();
+    ExecutorService executorService = Executors.newCachedThreadPool();
 
         //Блокируюшая очередь с ошибками
 
@@ -37,15 +38,15 @@ public class TCPServer {
             try {
                 this.clientSocket = serverSocketChannel.accept();
                 logger.info("Successfully connected");
-                pool.execute(new RequestHandler(map, clientSocket, logger, requestQueue, errorQueue));
-                pool.execute(new OutputSocketWriter(clientSocket.socket(), messageQueue, errorQueue));
-                pool.execute(new Executor(map, clientSocket.socket(), requestQueue, messageQueue, errorQueue));
+                executorService.submit(new RequestHandler(map, clientSocket, logger, requestQueue, errorQueue));
+                new Thread(new Executor(map, clientSocket.socket(), requestQueue, messageQueue, errorQueue)).start();
+                executorService.submit(new OutputSocketWriter(clientSocket.socket(), messageQueue, errorQueue));
             } catch (IOException ioe) {
                 logger.error("Connection error: ", ioe.getMessage());
             }
         }
         closeServerSocket();
-        pool.shutdown();
+        executorService.shutdown();
     }
 
         private void openServerSocket() {

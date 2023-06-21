@@ -32,18 +32,14 @@ public class InfoCommand extends AbstractCommand {
     public String execute(Request request) {
         if(argCheck(request.getArguments())){
                 String output = "";
-                FileTime lastInitTime = collectionHandler.getInitDateTime();
+                LocalDateTime lastInitTime = collectionHandler.getInitDateTime();
                 String lastInitTimeString = (lastInitTime == null) ? "initialization has not yet taken place in this session" :
                         lastInitTime.toString();
 
-                LocalDateTime lastSaveTime = collectionHandler.getLastSaveTime();
-                String lastSaveTimeString = (lastSaveTime == null) ? "this session has not yet been saved" :
-                        lastSaveTime.toLocalDate().toString() + " " + lastSaveTime.toLocalTime().toString();
 
                 output += ("\nCollection details:");
                 output += ("\n Type: " + collectionHandler.collectionType());
                 output += ("\n Amount of elements: " + collectionHandler.collectionSize());
-                output += ("\n Last save date: " + lastSaveTimeString);
                 output += ("\n Date of last initialization: " + lastInitTimeString);
             return output;
     }

@@ -243,7 +243,6 @@ public class CollectionHandler{
     public void loadCollection(){
         reentrantLock.lock();
         try {
-
            collection = fileManager.readFromFile();
             initDateTime = LocalDateTime.now();
         }finally {
@@ -283,6 +282,7 @@ public class CollectionHandler{
                 printWriter.println("health: "+spaceMarine.getHealth());
                 printWriter.println("Chapter: "+spaceMarine.getChapter().getName()+" | Parent legion: "+spaceMarine.getChapter().getParentLegion()+" | World: "+spaceMarine.getChapter().getWorld()
                 +" | Marines Count: "+ spaceMarine.getChapter().getMarinesCount());
+                printWriter.println("Owner: "+ spaceMarine.getCreator());
                 printWriter.println("********************************************");
             }
         }finally {
@@ -300,6 +300,7 @@ public class CollectionHandler{
             printWriter.println("health: "+spaceMarine.getHealth());
             printWriter.println("Chapter: "+spaceMarine.getChapter().getName()+" | Parent legion: "+spaceMarine.getChapter().getParentLegion()+" | World: "+spaceMarine.getChapter().getWorld()
                     +" | Marines Count: "+ spaceMarine.getChapter().getMarinesCount());
+            printWriter.println("Owner: "+ spaceMarine.getCreator());
             printWriter.println("********************************************");
         }finally {
             reentrantLock.lock();

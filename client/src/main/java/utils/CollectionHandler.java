@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CollectionHandler implements Serializable {
-    HashSet<SpaceMarine> marinesCollection =  new HashSet<>();
+    HashSet<SpaceMarine> collection =  new HashSet<>();
     private static HashSet<Long> setForId = new HashSet<>();
     private LocalDateTime initDateTime;
     private LocalDateTime saveDateTime;
@@ -32,24 +32,24 @@ public class CollectionHandler implements Serializable {
         loadCollection();
     }
     public void addToCollection(SpaceMarine marine) {
-        marinesCollection.add(marine);
+        collection.add(marine);
     }
     public static HashSet<Long> getArrayForId() {
         return setForId;
     }
 
     public String collectionType() {
-        return marinesCollection.getClass().getName();
+        return collection.getClass().getName();
     }
     public int collectionSize() {
-        return marinesCollection.size();
+        return collection.size();
     }
 
     public void removeFromCollection(SpaceMarine marine) {
-        marinesCollection.remove(marine);
+        collection.remove(marine);
     }
     public SpaceMarine getById(Long id) {
-        for (SpaceMarine marine : marinesCollection) {
+        for (SpaceMarine marine : collection) {
             if (marine.getId().equals(id)) return marine;
         }
         return null;
@@ -71,15 +71,15 @@ public class CollectionHandler implements Serializable {
     public LocalDateTime getLastSaveTime() {
         return saveDateTime;
     }
-    public HashSet<SpaceMarine> getCollection(){return marinesCollection;}
+    public HashSet<SpaceMarine> getCollection(){return collection;}
 
     public void clearCollection(){
-        marinesCollection.clear();
+        collection.clear();
     }
 
     public Long generateNextId(){
         Long nextId = Long.valueOf(0);
-        for(SpaceMarine spaceMarine : marinesCollection){
+        for(SpaceMarine spaceMarine : collection){
             if (spaceMarine.getId() >= nextId){
                 nextId = spaceMarine.getId();
             }
@@ -87,11 +87,11 @@ public class CollectionHandler implements Serializable {
         return nextId+1;
     }
     public Float averageHealth() {
-        if (marinesCollection.isEmpty()) return 0F;
+        if (collection.isEmpty()) return 0F;
         Float avghealth;
         Float sumhealth = 0F;
         Float quantity = 0F;
-        for(SpaceMarine Marine: marinesCollection) {
+        for(SpaceMarine Marine: collection) {
             sumhealth += Marine.getHealth();
             quantity += 1F;
         }
@@ -101,22 +101,22 @@ public class CollectionHandler implements Serializable {
     public int enumeration(Float health) {
         int executeStatus = 0;
         ArrayList<SpaceMarine> ToDelete = new ArrayList<>();
-        if (marinesCollection.isEmpty()) return 0;
-        for(SpaceMarine Marine: marinesCollection)
+        if (collection.isEmpty()) return 0;
+        for(SpaceMarine Marine: collection)
             if(Marine.getHealth() < health) {
                 ToDelete.add(Marine);
                 executeStatus = 1;
             }
         if (executeStatus == 0) return 2;
         for(SpaceMarine marineToDelete: ToDelete){
-            marinesCollection.remove(marineToDelete);
+            collection.remove(marineToDelete);
         }
         return 1;
     }
     public HashSet enumerationMelee(MeleeWeapon meleeweapon) {
         HashSet<SpaceMarine> marinesWithMeleeWeapon = new HashSet<>();
-        if (marinesCollection.isEmpty()) return marinesWithMeleeWeapon;
-        for(SpaceMarine Marine: marinesCollection)
+        if (collection.isEmpty()) return marinesWithMeleeWeapon;
+        for(SpaceMarine Marine: collection)
             if(Marine.getMeleeWeapon().toString().length() > meleeweapon.toString().length()) {
                 marinesWithMeleeWeapon.add(Marine);
             }
@@ -124,7 +124,7 @@ public class CollectionHandler implements Serializable {
     }
     public HashSet namestart(String startname) {
         HashSet<SpaceMarine> marinesWithRightNames = new HashSet<>();
-        for (SpaceMarine marine: marinesCollection){
+        for (SpaceMarine marine: collection){
             startname = "^" + startname + ".*";
             Pattern pattern = Pattern.compile(startname);
             Matcher matcher = pattern.matcher(marine.getName());
@@ -136,10 +136,10 @@ public class CollectionHandler implements Serializable {
     }
 
     public Long getMin() {
-        if (marinesCollection.isEmpty()) return 999999999L;
+        if (collection.isEmpty()) return 999999999L;
         Float minhealth = 999999.0F;
         Long minId = 999999999L;
-        for(SpaceMarine firstMarine: marinesCollection)
+        for(SpaceMarine firstMarine: collection)
             if(firstMarine.getHealth() < minhealth) {
                 minhealth = firstMarine.getHeight();
                 minId = firstMarine.getId();
@@ -147,10 +147,10 @@ public class CollectionHandler implements Serializable {
         return minId;
     }
     public Long getMax() {
-        if (marinesCollection.isEmpty()) return 0L;
+        if (collection.isEmpty()) return 0L;
         Float maxhealth = 0F;
         Long maxId = 0L;
-        for(SpaceMarine firstMarine: marinesCollection)
+        for(SpaceMarine firstMarine: collection)
             if(firstMarine.getHealth() > maxhealth) {
                 maxhealth = firstMarine.getHeight();
                 maxId = firstMarine.getId();
@@ -160,20 +160,20 @@ public class CollectionHandler implements Serializable {
 
 
     public void saveCollection() {
-        fileManager.writeFile(marinesCollection);
+        fileManager.writeFile(collection);
         saveDateTime = LocalDateTime.now();
     }
 
     public void loadCollection(){
-        marinesCollection = fileManager.readFromFile();
+        collection = fileManager.readFromFile();
         initDateTime = LocalDateTime.now();
     }
     @Override
     public String toString() {
-        if (marinesCollection.isEmpty()) return "Collection is empty!";
+        if (collection.isEmpty()) return "Collection is empty!";
 
         String info = "";
-        Iterator iterator = marinesCollection.iterator();
+        Iterator iterator = collection.iterator();
         while (iterator.hasNext()){
             info += iterator.next();
         }

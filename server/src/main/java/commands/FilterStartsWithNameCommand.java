@@ -17,7 +17,7 @@ import java.util.HashSet;
 public class FilterStartsWithNameCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
 
-    public FilterStartsWithNameCommand(CollectionHandler collectionHandler, DatabaseHandler databaseHandler) {
+    public FilterStartsWithNameCommand(CollectionHandler collectionHandler) {
         super("filter_starts_with_name", "display elements whose name field value starts with the given substring");
         this.collectionHandler = collectionHandler;
     }

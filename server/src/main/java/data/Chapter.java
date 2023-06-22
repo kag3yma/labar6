@@ -15,12 +15,11 @@ public class Chapter implements Serializable {
         this.world = world;
     }
     public Chapter(){}
-
     public String getName(){return name;}
     public void setName(String name){this.name = name;}
     public String getParentLegion(){return parentLegion;}
     public void setParentLegion(String parentLegion){this.parentLegion = parentLegion;}
-    public long getMarinesCount(){return marinesCount;}
+    public int getMarinesCount(){return marinesCount;}
     public void setMarinesCount(int marinesCount){this.marinesCount = marinesCount;}
     public String getWorld(){return world;}
     public void setWorld(String world){this.world = world;}

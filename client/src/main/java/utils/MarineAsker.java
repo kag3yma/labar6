@@ -49,7 +49,6 @@ public class MarineAsker {
                 askHeight(),
                 askWeaponType(),
                 askMeleeWeapon(),
-                null,
                 user.getLogin());}}catch (IncorrectInputInScriptException e){
             Console.printerror("Incorrect input");
 
@@ -412,6 +411,6 @@ public class MarineAsker {
                 System.exit(0);
             }
         }
-        return (answer.equals("+")) ? true : false;
+        return (answer.equals("+")) ? true : false ;
     }
 }

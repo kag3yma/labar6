@@ -38,7 +38,7 @@ public class App {
         Command addIfMax = new AddIfMaxCommand(collectionHandler, databaseHandler);
         Command removeLower = new RemoveLowerCommand(collectionHandler, databaseHandler);
         Command averageOfHealth = new AverageOfHealthCommand(collectionHandler, databaseHandler);
-        Command filterStartsWithName = new FilterStartsWithNameCommand(collectionHandler, databaseHandler);
+        Command filterStartsWithName = new FilterStartsWithNameCommand(collectionHandler);
         Command countGreaterThanMeleeWeapon = new CountGreaterThanMeleeWeaponCommand(collectionHandler);
         Command register = new RegisterCommand(databaseHandler);
         Command login = new LoginCommand(databaseHandler);

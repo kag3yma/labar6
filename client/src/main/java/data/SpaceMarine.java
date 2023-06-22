@@ -41,7 +41,7 @@ public class SpaceMarine implements Serializable {
         this.height = height;
         this.weaponType = weaponType;
         this.meleeWeapon = meleeWeapon;
-        this.chapter = null;
+        this.chapter = new Chapter();
         this.creator = creator;
         this.saved = false;
     }

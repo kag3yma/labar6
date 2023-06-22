@@ -14,8 +14,8 @@ public class DatabaseHandler {
 
 
     Connection connection = null;
-    String user = "s368314";
-    String password = "ekChr2zlWjz9tq1g";
+    String user = "s332890";
+    String password = "McClHCMnPH2uM2Rb";
     String url = "jdbc:postgresql://localhost:5432/studs";
     private static final Logger logger = (Logger) LoggerFactory.getLogger(DatabaseHandler.class);
 
@@ -53,7 +53,7 @@ public class DatabaseHandler {
                 statement.setObject(8,spaceMarine.getMeleeWeapon(), Types.OTHER);
                 statement.setString(9,spaceMarine.getChapter().getName());
                 statement.setString(10,spaceMarine.getChapter().getWorld());
-                statement.setLong(11,spaceMarine.getChapter().getMarinesCount());
+                statement.setInt(11,spaceMarine.getChapter().getMarinesCount());
                 statement.setString(12,spaceMarine.getChapter().getParentLegion());
                 statement.setString(13,spaceMarine.getCreator());
 
@@ -94,11 +94,11 @@ public class DatabaseHandler {
                 Weapon weapon = Weapon.valueOf(resultSet.getString("weapon_type"));
                 String chapter_name = resultSet.getString("chapter_name");
                 String chapter_world = resultSet.getString("chapter_world");
-                long chapter_marines_count = resultSet.getLong("chapter_marines_count");
+                int chapter_marines_count = resultSet.getInt("chapter_marines_count");
                 String chapter_parent_legion = resultSet.getString("chapter_parent_legion");
                 String creator = resultSet.getString("creator");
                 Coordinates coordinates = new Coordinates(coordinates_x, coordinates_y);
-                Chapter chapter = new Chapter(chapter_name, chapter_parent_legion, (int) chapter_marines_count, chapter_world);
+                Chapter chapter = new Chapter(chapter_name, chapter_parent_legion, chapter_marines_count, chapter_world);
                 SpaceMarine spaceMarine = new SpaceMarine(id, name, creationDate, coordinates, health, height, weapon, meleeWeapon, chapter, creator);
                 spaceMarine.setSaved();
                 spaceMarines.add(spaceMarine);
@@ -133,7 +133,7 @@ public class DatabaseHandler {
 
         int rowsAffected = statement.executeUpdate();
         if (rowsAffected == 0) {
-            throw new SQLException("Registring failed, no rows affected.");
+            throw new SQLException("Registering failed, no rows affected.");
         }
     }
 

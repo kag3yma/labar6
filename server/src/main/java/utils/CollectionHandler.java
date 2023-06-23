@@ -171,14 +171,20 @@ public class CollectionHandler{
         return 1;
     }
     public HashSet enumerationMelee(MeleeWeapon meleeweapon) {
-        HashSet<SpaceMarine> marinesWithMeleeWeapon = new HashSet<>();
-        if (collection.isEmpty()) return marinesWithMeleeWeapon;
-        for(SpaceMarine Marine: collection)
-            if(Marine.getMeleeWeapon().toString().length() > meleeweapon.toString().length()) {
-                marinesWithMeleeWeapon.add(Marine);
+        reentrantLock.lock();
+        try {
+
+            HashSet<SpaceMarine> marinesWithMeleeWeapon = new HashSet<>();
+            if (collection.isEmpty()) return marinesWithMeleeWeapon;
+            for(SpaceMarine Marine: collection)
+                if(Marine.getMeleeWeapon().toString().length() > meleeweapon.toString().length()) {
+                    marinesWithMeleeWeapon.add(Marine);
+                }
+            return marinesWithMeleeWeapon;
+    }finally {
+            reentrantLock.unlock();
             }
-        return marinesWithMeleeWeapon;
-    }
+        }
     public HashSet namestart(String startname) {
         HashSet<SpaceMarine> marinesWithRightNames = new HashSet<>();
         for (SpaceMarine marine: collection){
@@ -271,39 +277,30 @@ public class CollectionHandler{
     }
 
     public void printSpaceMarinesList(PrintWriter printWriter){
-        reentrantLock.lock();
-        try {
-            for (SpaceMarine spaceMarine: collection){
-                printWriter.println("id: "+spaceMarine.getId());
-                printWriter.println("name: "+spaceMarine.getName());
-                printWriter.println("coordinates: x: "+spaceMarine.getCoordinates().getX()+"y: "+ spaceMarine.getCoordinates().getY());
-                printWriter.println("creation_date: "+spaceMarine.getCreationDate());
-                printWriter.println("height: "+spaceMarine.getHeight());
-                printWriter.println("health: "+spaceMarine.getHealth());
-                printWriter.println("Chapter: "+spaceMarine.getChapter().getName()+" | Parent legion: "+spaceMarine.getChapter().getParentLegion()+" | World: "+spaceMarine.getChapter().getWorld()
-                +" | Marines Count: "+ spaceMarine.getChapter().getMarinesCount());
-                printWriter.println("Owner: "+ spaceMarine.getCreator());
-                printWriter.println("********************************************");
-            }
-        }finally {
-            reentrantLock.unlock();
-        }
-    }
-    public void printSpaceMarine(SpaceMarine spaceMarine, PrintWriter printWriter){
-        reentrantLock.lock();
-        try {
+        for (SpaceMarine spaceMarine: collection){
             printWriter.println("id: "+spaceMarine.getId());
             printWriter.println("name: "+spaceMarine.getName());
-            printWriter.println("coordinates: x: "+spaceMarine.getCoordinates().getX()+"y: "+ spaceMarine.getCoordinates().getY());
+            printWriter.println("coordinates: x: "+spaceMarine.getCoordinates().getX()+" "+"y: "+ spaceMarine.getCoordinates().getY());
             printWriter.println("creation_date: "+spaceMarine.getCreationDate());
             printWriter.println("height: "+spaceMarine.getHeight());
             printWriter.println("health: "+spaceMarine.getHealth());
             printWriter.println("Chapter: "+spaceMarine.getChapter().getName()+" | Parent legion: "+spaceMarine.getChapter().getParentLegion()+" | World: "+spaceMarine.getChapter().getWorld()
-                    +" | Marines Count: "+ spaceMarine.getChapter().getMarinesCount());
+            +" | Marines Count: "+ spaceMarine.getChapter().getMarinesCount());
             printWriter.println("Owner: "+ spaceMarine.getCreator());
             printWriter.println("********************************************");
-        }finally {
-            reentrantLock.lock();
         }
+
+    }
+    public void printSpaceMarine(SpaceMarine spaceMarine, PrintWriter printWriter){
+        printWriter.println("id: "+spaceMarine.getId());
+        printWriter.println("name: "+spaceMarine.getName());
+        printWriter.println("coordinates: x: "+spaceMarine.getCoordinates().getX()+" "+"y: "+ spaceMarine.getCoordinates().getY());
+        printWriter.println("creation_date: "+spaceMarine.getCreationDate());
+        printWriter.println("height: "+spaceMarine.getHeight());
+        printWriter.println("health: "+spaceMarine.getHealth());
+        printWriter.println("Chapter: "+spaceMarine.getChapter().getName()+" | Parent legion: "+spaceMarine.getChapter().getParentLegion()+" | World: "+spaceMarine.getChapter().getWorld()
+                +" | Marines Count: "+ spaceMarine.getChapter().getMarinesCount());
+        printWriter.println("Owner: "+ spaceMarine.getCreator());
+        printWriter.println("********************************************");
     }
 }

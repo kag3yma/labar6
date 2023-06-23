@@ -31,7 +31,7 @@ public class App {
         Command add = new AddCommand(collectionHandler, databaseHandler);
         Command update = new UpdateCommand(collectionHandler, databaseHandler);
         Command removeById = new RemoveByIdCommand(collectionHandler, databaseHandler);
-        Command clear = new ClearCommand(collectionHandler);
+        Command clear = new ClearCommand(collectionHandler, databaseHandler);
         Command save = new SaveCommand(collectionHandler,databaseHandler);
         Command exit = new ExitCommand();
         Command addIfMin = new AddIfMinCommand(collectionHandler, databaseHandler);
@@ -42,7 +42,6 @@ public class App {
         Command countGreaterThanMeleeWeapon = new CountGreaterThanMeleeWeaponCommand(collectionHandler);
         Command register = new RegisterCommand(databaseHandler);
         Command login = new LoginCommand(databaseHandler);
-        Command load = new LoadCommand(collectionHandler);
 
 
         HashMap<String, Command> map = new HashMap<String, Command>();
@@ -60,7 +59,6 @@ public class App {
         map.put(countGreaterThanMeleeWeapon.getName(), countGreaterThanMeleeWeapon);
         map.put(register.getName(), register);
         map.put(login.getName(), login);
-        map.put(load.getName(), load);
 
         Command executeScriptCommand = new ExecuteScriptCommand(map);
         map.put(executeScriptCommand.getName(), executeScriptCommand);
@@ -70,11 +68,23 @@ public class App {
                 String command = scanner.nextLine();
                 if(command.trim().equals(exit.getName())){
                     scanner.close();
-                    save.execute(new Request("save", "placeholderArg",null,null));
-                    exit.execute(new Request("exit", "placeholderArg",null,null));
+                    try {
+                        save.execute(new Request("save", "placeholderArg",null,null));
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        exit.execute(new Request("exit", "placeholderArg",null,null));
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
                 if(command.trim().equals(save.getName())){
-                    save.execute(new Request("save", "placeholderArg",null,null));
+                    try {
+                        save.execute(new Request("save", "placeholderArg",null,null));
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
                 } else {
                     Console.printerror("No Such Command, server can run only save and exit commands");
                 }

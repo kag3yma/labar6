@@ -8,9 +8,8 @@ import utils.CollectionHandler;
 import utils.Console;
 import utils.DatabaseHandler;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class RemoveLowerCommand extends AbstractCommand {
@@ -40,20 +39,20 @@ public class RemoveLowerCommand extends AbstractCommand {
                     .filter(spaceMarine -> !spaceMarine.getCreator().equals(request.getUser().getLogin()))
                     .filter(spaceMarine -> spaceMarine.getId() <= Long.parseLong(request.getArguments()))
                     .collect(Collectors.toCollection(HashSet::new)).size() > 0;
-                    if (checkList){
-                        return "You can't edit elements which are not yours";
-                    }
-                    HashSet<SpaceMarine> filteredList = collectionHandler.getCollection()
-                            .stream()
-                            .filter(spaceMarine -> spaceMarine.getId() >= Long.parseLong(request.getArguments()))
-                            .collect(Collectors.toCollection(HashSet::new));
-                    for (SpaceMarine spaceMarine: collectionHandler.getCollection()){
-                        if (!filteredList.contains(spaceMarine)){
-                            databaseHandler.deleteSpaceMarine(spaceMarine.getId());
-                        }
-                    }
-                    collectionHandler.clearCollection();
-                    collectionHandler.setCollection(filteredList);
+            if (checkList){
+                return "You can't edit elements which are not yours";
+            }
+            HashSet<SpaceMarine> filteredList = collectionHandler.getCollection()
+                    .stream()
+                    .filter(spaceMarine -> spaceMarine.getId() >= Long.parseLong(request.getArguments()))
+                    .collect(Collectors.toCollection(HashSet::new));
+            for (SpaceMarine spaceMarine: collectionHandler.getCollection()){
+                if (!filteredList.contains(spaceMarine)){
+                    databaseHandler.deleteSpaceMarine(spaceMarine.getId());
+                }
+            }
+            collectionHandler.clearCollection();
+            collectionHandler.setCollection(filteredList);
         }
         return "";
     }

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class CountGreaterThanMeleeWeaponCommand extends AbstractCommand {
@@ -35,18 +36,22 @@ public class CountGreaterThanMeleeWeaponCommand extends AbstractCommand {
     @Override
     public String execute(Request request) {
         if (argCheck(request.getArguments())) {
-            MeleeWeapon meleeWeapon = MeleeWeapon.valueOf(request.getArguments().toUpperCase());
-            HashSet marinesMelee = collectionHandler.enumerationMelee(meleeWeapon);
-            int quantityMelee = 0;
-            for (Object element : marinesMelee) {
-                quantityMelee = quantityMelee + 1;
+            try {
+
+                MeleeWeapon meleeWeapon = MeleeWeapon.valueOf(request.getArguments().toUpperCase());
+                HashSet marinesMelee = collectionHandler.enumerationMelee(meleeWeapon);
+                int quantityMelee = 0;
+                for (Object element : marinesMelee) {
+                    quantityMelee = quantityMelee + 1;
+                }
+                StringWriter stringWriter = new StringWriter();
+                PrintWriter printWriter = new PrintWriter(stringWriter, true);
+                printWriter.println("Element amount with melee weapon is higher than: " + quantityMelee);
+                return stringWriter.toString();
+            } catch (NoSuchElementException nse) {
+                return "Error: no such element";
             }
-            StringWriter stringWriter = new StringWriter();
-            PrintWriter printWriter = new PrintWriter(stringWriter, true);
-            printWriter.println("Element amount with melee weapon is higher than: " + quantityMelee);
-            return stringWriter.toString();
-    }else {
-            return "";
         }
+        return "";
     }
 }

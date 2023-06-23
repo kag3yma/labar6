@@ -1,16 +1,22 @@
 package commands;
 
 import exceptions.ElementAmountException;
+import network.TCPServer;
 import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
+import utils.DatabaseHandler;
+
+import java.sql.SQLException;
 
 public class ClearCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
+    private DatabaseHandler databaseHandler;
 
-    public ClearCommand(CollectionHandler collectionHandler) {
+    public ClearCommand(CollectionHandler collectionHandler, DatabaseHandler databaseHandler) {
         super("clear", "clear the collection");
         this.collectionHandler = collectionHandler;
+        this.databaseHandler = databaseHandler;
     }
     public boolean argCheck(String arg){
         try{
@@ -23,11 +29,11 @@ public class ClearCommand extends AbstractCommand {
     }
 
     @Override
-    public String execute(Request request) {
+    public String execute(Request request) throws SQLException {
         if (argCheck(request.getArguments())) {
             collectionHandler.clearCollection();
-            Console.println("Collection cleared!");
+            databaseHandler.clearCollection();
     }
-        return "";
+        return "Collection cleared!";
     }
 }

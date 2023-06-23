@@ -2,6 +2,7 @@ package utils;
 
 import ch.qos.logback.classic.Logger;
 import data.*;
+import exceptions.DatabaseException;
 import org.slf4j.LoggerFactory;
 import utils.*;
 import java.sql.*;
@@ -18,6 +19,7 @@ public class DatabaseHandler {
     String password = "ekChr2zlWjz9tq1g";
     String url = "jdbc:postgresql://localhost:5432/studs";
     private static final Logger logger = (Logger) LoggerFactory.getLogger(DatabaseHandler.class);
+    private CollectionHandler collectionHandler;
 
     public Connection connect() {
         try {
@@ -151,5 +153,11 @@ public class DatabaseHandler {
         } catch (SQLException sqle){
             sqle.printStackTrace();
         }return false;
+    }
+    public void clearCollection() throws SQLException {
+        HashSet<SpaceMarine> marineList = getAllSpaceMarines();
+        for (SpaceMarine marine : marineList) {
+            deleteSpaceMarine(marine.getId());
+        }
     }
 }

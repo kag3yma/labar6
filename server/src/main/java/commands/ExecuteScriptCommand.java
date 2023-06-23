@@ -8,6 +8,7 @@ import utils.Console;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +66,8 @@ public class ExecuteScriptCommand extends AbstractCommand {
                 Console.printerror("Error while executing the script: " + request.getArguments());
             } catch (RecursionException re){
                 Console.printerror("A script or chain of scripts cannot execute itself.");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         }
         prevScripts.clear();

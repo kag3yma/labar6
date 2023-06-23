@@ -7,6 +7,7 @@ public class Chapter implements Serializable {
     private String parentLegion;
     private int marinesCount;
     private String world;
+    static final long serialVersionUID = 1L;
 
     public Chapter(String name, String parentLegion, int marinesCount, String world){
         this.name = name;

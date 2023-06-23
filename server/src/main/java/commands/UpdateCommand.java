@@ -2,11 +2,13 @@ package commands;
 
 import data.*;
 import exceptions.*;
+import network.TCPServer;
 import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
 import utils.DatabaseHandler;
-import utils.MarineAsker;
+
+import java.util.NoSuchElementException;
 
 public class UpdateCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
@@ -33,22 +35,27 @@ public class UpdateCommand extends AbstractCommand {
 
     @Override
     public String execute(Request request){
-        if(argCheck(request.getArguments())){
-            for(SpaceMarine spaceMarine :  collectionHandler.getCollection()){
-                if(spaceMarine.getId()==(Long.parseLong(request.getArguments()))){
-                    SpaceMarine nMarine = request.getSpaceMarine();
-                    nMarine.setId(Long.parseLong(request.getArguments()));
-                    if(spaceMarine.getCreator().equals(request.getUser().getLogin())){
-                        databaseHandler.deleteSpaceMarine(spaceMarine.getId());
-                        collectionHandler.removeFromCollection(spaceMarine);
+        if(argCheck(request.getArguments())) {
+            try {
 
-                        collectionHandler.addToCollection(nMarine);
-                    } else {
-                        return "Can't edit items created by other users";
+                for (SpaceMarine spaceMarine : collectionHandler.getCollection()) {
+                    if (spaceMarine.getId() == (Long.parseLong(request.getArguments()))) {
+                        SpaceMarine nMarine = request.getSpaceMarine();
+                        nMarine.setId(Long.parseLong(request.getArguments()));
+                        if (spaceMarine.getCreator().equals(request.getUser().getLogin())) {
+                            databaseHandler.deleteSpaceMarine(spaceMarine.getId());
+                            collectionHandler.removeFromCollection(spaceMarine);
+
+                            collectionHandler.addToCollection(nMarine);
+                        } else {
+                            return "Can't edit items created by other users";
+                        }
                     }
                 }
+                new SaveCommand(collectionHandler, databaseHandler).execute(request);
+            } catch (NoSuchElementException e) {
+                return e.getMessage();
             }
-            new SaveCommand(collectionHandler, databaseHandler).execute(request);
         }
         return "";
     }

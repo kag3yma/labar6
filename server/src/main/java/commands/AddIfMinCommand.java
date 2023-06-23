@@ -2,15 +2,16 @@ package commands;
 
 import data.SpaceMarine;
 import exceptions.ElementAmountException;
+import network.TCPServer;
 import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
 import utils.DatabaseHandler;
-import utils.MarineAsker;
 
 public class AddIfMinCommand extends AbstractCommand {
     private CollectionHandler collectionHandler;
     private DatabaseHandler databaseHandler;
+
 
     public AddIfMinCommand(CollectionHandler collectionHandler, DatabaseHandler databaseHandler) {
         super("add_if_min", "add a new element if its value is less than that of the smallest");
@@ -42,6 +43,6 @@ public class AddIfMinCommand extends AbstractCommand {
                 } else
                     Console.println("Soldier successfully added!");
             }
-        return "";
+        return "Soldier successfully added!";
     }
     }

@@ -21,11 +21,17 @@ public class RemoveLowerCommand extends AbstractCommand {
     public boolean argCheck(String arg){
         try{
             if(arg.equals("placeholderArg")) throw new ElementAmountException();
+            try {
+                Long.parseLong(arg);
+            }catch (NumberFormatException e) {Console.printerror("Incorrect ID");
+                return false;
+            }
             return true;
         } catch (ElementAmountException e) {
             Console.printerror("Wrong number of arguments");
-        return false;
+            return false;
+        }
     }
 }
-}
+
 

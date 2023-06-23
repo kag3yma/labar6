@@ -7,6 +7,7 @@ import requests.Request;
 import utils.CollectionHandler;
 import utils.Console;
 import utils.DatabaseHandler;
+import utils.MarineAsker;
 
 import java.util.NoSuchElementException;
 
@@ -47,12 +48,13 @@ public class UpdateCommand extends AbstractCommand {
                             collectionHandler.removeFromCollection(spaceMarine);
 
                             collectionHandler.addToCollection(nMarine);
+                            Request nRequest = new Request(request.getCommandName(), "placeholderArg", nMarine, request.getUser());
+                            new SaveCommand(collectionHandler, databaseHandler).execute(nRequest);
                         } else {
                             return "Can't edit items created by other users";
                         }
                     }
                 }
-                new SaveCommand(collectionHandler, databaseHandler).execute(request);
             } catch (NoSuchElementException e) {
                 return e.getMessage();
             }

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal" created-in="IU-222.4345.14">
+  <component name="dataSourceStorageLocal" created-in="IU-231.9011.34">
     <data-source name="studs@localhost" uuid="1004607c-9111-4c48-9814-6ed0e5836728">
       <database-info product="PostgreSQL" version="14.2" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.6.0" dbms="POSTGRES" exact-version="14.2" exact-driver-version="42.6">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
-      <user-name>s332890</user-name>
+      <user-name>s368314</user-name>
       <schema-mapping>
         <introspection-scope>
           <node kind="database" qname="@">
@@ -15,21 +15,14 @@
           </node>
         </introspection-scope>
       </schema-mapping>
+      <ssh-properties>
+        <enabled>false</enabled>
+        <ssh-config-id>e692c2ae-26e4-4220-95c3-764140520ad9</ssh-config-id>
+      </ssh-properties>
     </data-source>
     <data-source name="postgres@localhost" uuid="7927750d-9b63-4186-84f0-c32d62fd4341">
-      <database-info product="PostgreSQL" version="14.2" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.6.0" dbms="POSTGRES" exact-version="14.2" exact-driver-version="42.6">
-        <identifier-quote-string>&quot;</identifier-quote-string>
-      </database-info>
-      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
-      <secret-storage>master_key</secret-storage>
-      <user-name>s332890</user-name>
-      <schema-mapping>
-        <introspection-scope>
-          <node kind="database" qname="@">
-            <node kind="schema" qname="@" />
-          </node>
-        </introspection-scope>
-      </schema-mapping>
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="POSTGRES" exact-version="0" />
+      <schema-mapping />
     </data-source>
   </component>
 </project>

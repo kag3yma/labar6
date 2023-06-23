@@ -15,8 +15,8 @@ public class DatabaseHandler {
 
 
     Connection connection = null;
-    String user = "s332890";
-    String password = "McClHCMnPH2uM2Rb";
+    String user = "s368314";
+    String password = "ekChr2zlWjz9tq1g";
     String url = "jdbc:postgresql://localhost:5432/studs";
     private static final Logger logger = (Logger) LoggerFactory.getLogger(DatabaseHandler.class);
     private CollectionHandler collectionHandler;

@@ -8,8 +8,8 @@ public class Request implements Serializable {
     private String commandname;
     private String argument;
     private SpaceMarine spaceMarine;
-    static final long serialVersionUID = 1L;
     private User user;
+    static final long serialVersionUID = 1L;
 
     public Request(String commandname, String argument, SpaceMarine spaceMarine, User user){
         this.commandname = commandname;

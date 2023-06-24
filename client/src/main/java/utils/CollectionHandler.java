@@ -24,12 +24,10 @@ public class CollectionHandler implements Serializable {
     private FileManager fileManager;
 
 
-    public CollectionHandler(FileManager fileManager) {
+    public CollectionHandler() {
         this.initDateTime = null;
         this.saveDateTime = null;
-        this.fileManager = fileManager;
-
-        loadCollection();
+        collection = new HashSet<>();
     }
     public void addToCollection(SpaceMarine marine) {
         collection.add(marine);

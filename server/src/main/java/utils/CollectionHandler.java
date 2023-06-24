@@ -35,7 +35,13 @@ public class CollectionHandler{
 
     }
     public void addToCollection(SpaceMarine marine) {
-        collection.add(marine);
+        reentrantLock.lock();
+        try {
+
+            collection.add(marine);
+        }finally {
+            reentrantLock.unlock();
+        }
     }
     public static HashSet<Long> getArrayForId() {
         return setForId;
@@ -49,7 +55,12 @@ public class CollectionHandler{
     }
 
     public void removeFromCollection(SpaceMarine marine) {
-        collection.remove(marine);
+        reentrantLock.lock();
+        try{
+            collection.remove(marine);
+    }finally {
+            reentrantLock.unlock();
+        }
     }
     public SpaceMarine getById(Long id) {
         reentrantLock.lock();
@@ -277,30 +288,40 @@ public class CollectionHandler{
     }
 
     public void printSpaceMarinesList(PrintWriter printWriter){
-        for (SpaceMarine spaceMarine: collection){
-            printWriter.println("id: "+spaceMarine.getId());
-            printWriter.println("name: "+spaceMarine.getName());
-            printWriter.println("coordinates: x: "+spaceMarine.getCoordinates().getX()+" "+"y: "+ spaceMarine.getCoordinates().getY());
-            printWriter.println("creation_date: "+spaceMarine.getCreationDate());
-            printWriter.println("height: "+spaceMarine.getHeight());
-            printWriter.println("health: "+spaceMarine.getHealth());
-            printWriter.println("Chapter: "+spaceMarine.getChapter().getName()+" | Parent legion: "+spaceMarine.getChapter().getParentLegion()+" | World: "+spaceMarine.getChapter().getWorld()
-            +" | Marines Count: "+ spaceMarine.getChapter().getMarinesCount());
-            printWriter.println("Owner: "+ spaceMarine.getCreator());
-            printWriter.println("********************************************");
+        reentrantLock.lock();
+        try {
+            for (SpaceMarine spaceMarine : collection) {
+                printWriter.println("id: " + spaceMarine.getId());
+                printWriter.println("name: " + spaceMarine.getName());
+                printWriter.println("coordinates: x: " + spaceMarine.getCoordinates().getX() + " " + "y: " + spaceMarine.getCoordinates().getY());
+                printWriter.println("creation_date: " + spaceMarine.getCreationDate());
+                printWriter.println("height: " + spaceMarine.getHeight());
+                printWriter.println("health: " + spaceMarine.getHealth());
+                printWriter.println("Chapter: " + spaceMarine.getChapter().getName() + " | Parent legion: " + spaceMarine.getChapter().getParentLegion() + " | World: " + spaceMarine.getChapter().getWorld()
+                        + " | Marines Count: " + spaceMarine.getChapter().getMarinesCount());
+                printWriter.println("Owner: " + spaceMarine.getCreator());
+                printWriter.println("********************************************");
+            }
+        }finally {
+            reentrantLock.unlock();
         }
 
     }
-    public void printSpaceMarine(SpaceMarine spaceMarine, PrintWriter printWriter){
-        printWriter.println("id: "+spaceMarine.getId());
-        printWriter.println("name: "+spaceMarine.getName());
-        printWriter.println("coordinates: x: "+spaceMarine.getCoordinates().getX()+" "+"y: "+ spaceMarine.getCoordinates().getY());
-        printWriter.println("creation_date: "+spaceMarine.getCreationDate());
-        printWriter.println("height: "+spaceMarine.getHeight());
-        printWriter.println("health: "+spaceMarine.getHealth());
-        printWriter.println("Chapter: "+spaceMarine.getChapter().getName()+" | Parent legion: "+spaceMarine.getChapter().getParentLegion()+" | World: "+spaceMarine.getChapter().getWorld()
-                +" | Marines Count: "+ spaceMarine.getChapter().getMarinesCount());
-        printWriter.println("Owner: "+ spaceMarine.getCreator());
-        printWriter.println("********************************************");
+    public void printSpaceMarine(SpaceMarine spaceMarine, PrintWriter printWriter) {
+        reentrantLock.lock();
+        try {
+            printWriter.println("id: " + spaceMarine.getId());
+            printWriter.println("name: " + spaceMarine.getName());
+            printWriter.println("coordinates: x: " + spaceMarine.getCoordinates().getX() + " " + "y: " + spaceMarine.getCoordinates().getY());
+            printWriter.println("creation_date: " + spaceMarine.getCreationDate());
+            printWriter.println("height: " + spaceMarine.getHeight());
+            printWriter.println("health: " + spaceMarine.getHealth());
+            printWriter.println("Chapter: " + spaceMarine.getChapter().getName() + " | Parent legion: " + spaceMarine.getChapter().getParentLegion() + " | World: " + spaceMarine.getChapter().getWorld()
+                    + " | Marines Count: " + spaceMarine.getChapter().getMarinesCount());
+            printWriter.println("Owner: " + spaceMarine.getCreator());
+            printWriter.println("********************************************");
+        }finally {
+            reentrantLock.unlock();
+        }
     }
 }

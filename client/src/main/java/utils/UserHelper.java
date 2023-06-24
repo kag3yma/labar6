@@ -26,11 +26,10 @@ public class UserHelper {
     public String sendLogin(User user){
         try {
             return client.sendRequest(new Request("login","placeholderArg",null,user));
-        } catch (IOException e){
+        } catch (IOException | InterruptedException e){
             e.printStackTrace();
-        } catch (InterruptedException e){
-            e.printStackTrace();
-        } return "Error while getting response";
+        }
+        return "Error while getting response";
     }
     public User createUser(Scanner scanner){
         System.out.println("Enter login:");

@@ -30,7 +30,7 @@ public class RegisterCommand extends AbstractCommand{
     public String execute(Request request){
         if(argCheck(request.getArguments())){
             Hasher hasher = new Hasher("SHA-224");
-            if(!databaseHandler.checkIfUserExists(request.getUser().getLogin(), hasher.encode(request.getUser().getPassword()))){
+            if(!databaseHandler.checkIfLoginExists(request.getUser().getLogin())){
                 try {
                     databaseHandler.register(request.getUser().getLogin(), request.getUser().getPassword());
                 }catch (SQLException sqle){

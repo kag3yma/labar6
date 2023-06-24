@@ -8,6 +8,7 @@ import utils.CollectionHandler;
 import utils.Console;
 import utils.DatabaseHandler;
 
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -33,28 +34,17 @@ public class RemoveLowerCommand extends AbstractCommand {
     }
 
     @Override
-    public String execute(Request request) {
-        if(argCheck(request.getArguments())){
-            boolean checkList = collectionHandler.getCollection().stream()
-                    .filter(spaceMarine -> !spaceMarine.getCreator().equals(request.getUser().getLogin()))
-                    .filter(spaceMarine -> spaceMarine.getId() <= Long.parseLong(request.getArguments()))
-                    .collect(Collectors.toCollection(HashSet::new)).size() > 0;
-            if (checkList){
-                return "You can't edit elements which are not yours";
-            }
-            HashSet<SpaceMarine> filteredList = collectionHandler.getCollection()
-                    .stream()
-                    .filter(spaceMarine -> spaceMarine.getId() >= Long.parseLong(request.getArguments()))
-                    .collect(Collectors.toCollection(HashSet::new));
-            for (SpaceMarine spaceMarine: collectionHandler.getCollection()){
-                if (!filteredList.contains(spaceMarine)){
-                    databaseHandler.deleteSpaceMarine(spaceMarine.getId());
+    public String execute(Request request) throws SQLException {
+        if (argCheck(request.getArguments())) {
+
+            collectionHandler.getCollection()
+                    .removeIf(spaceMarine -> spaceMarine.getCreator().equals(request.getUser().getLogin()) && spaceMarine.getId() <= Long.parseLong(request.getArguments()));
+
+            databaseHandler.deleteSpaceMarine(request);
+
                 }
-            }
-            collectionHandler.clearCollection();
-            collectionHandler.setCollection(filteredList);
-        }
         return "";
     }
 }
+
 

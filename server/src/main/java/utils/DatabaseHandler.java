@@ -43,38 +43,39 @@ public class DatabaseHandler {
                                 "(name, creation_date, coordinates_x, coordinates_y, health, height, weapon_type, melee_weapon, chapter_name, chapter_world, chapter_marines_count, chapter_parent_legion, creator)" +
                                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 statement.setString(1, spaceMarine.getName());
-               // LocalDate creationDate = LocalDate.from(spaceMarine.getCreationDate());
-               // LocalTime creationTime = LocalTime.of(23, 0, 0);
-               //LocalDateTime dateTime = LocalDateTime.of(creationDate, creationTime);
+                // LocalDate creationDate = LocalDate.from(spaceMarine.getCreationDate());
+                // LocalTime creationTime = LocalTime.of(23, 0, 0);
+                //LocalDateTime dateTime = LocalDateTime.of(creationDate, creationTime);
                 LocalDateTime dateTime = spaceMarine.getCreationDate();
                 statement.setTimestamp(2, Timestamp.valueOf(dateTime));
                 statement.setFloat(3, spaceMarine.getCoordinates().getX());
                 statement.setFloat(4, spaceMarine.getCoordinates().getY());
-                statement.setFloat(5,spaceMarine.getHealth());
-                statement.setFloat(6,spaceMarine.getHeight());
-                statement.setObject(7,spaceMarine.getWeaponType(), Types.OTHER);
-                statement.setObject(8,spaceMarine.getMeleeWeapon(), Types.OTHER);
-                statement.setString(9,spaceMarine.getChapter().getName());
-                statement.setString(10,spaceMarine.getChapter().getWorld());
-                statement.setInt(11,spaceMarine.getChapter().getMarinesCount());
-                statement.setString(12,spaceMarine.getChapter().getParentLegion());
-                statement.setString(13,spaceMarine.getCreator());
+                statement.setFloat(5, spaceMarine.getHealth());
+                statement.setFloat(6, spaceMarine.getHeight());
+                statement.setObject(7, spaceMarine.getWeaponType(), Types.OTHER);
+                statement.setObject(8, spaceMarine.getMeleeWeapon(), Types.OTHER);
+                statement.setString(9, spaceMarine.getChapter().getName());
+                statement.setString(10, spaceMarine.getChapter().getWorld());
+                statement.setInt(11, spaceMarine.getChapter().getMarinesCount());
+                statement.setString(12, spaceMarine.getChapter().getParentLegion());
+                statement.setString(13, spaceMarine.getCreator());
 
                 spaceMarine.setSaved();
                 int rowsAffected = statement.executeUpdate();
-                if (rowsAffected == 0){
+                if (rowsAffected == 0) {
                     throw new SQLException("Inserting space_marine failed, no rows affected");
                 }
                 Statement selectStatement = connection.createStatement();
-                try (ResultSet rs = selectStatement.executeQuery("SELECT MAX(id) FROM space_marine")){
-                    if (rs.next()){
+                try (ResultSet rs = selectStatement.executeQuery("SELECT MAX(id) FROM space_marine")) {
+                    if (rs.next()) {
                         generatedId = rs.getInt(1);
                     }
                 }
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } return generatedId;
+        }
+        return generatedId;
     }
 
     public HashSet<SpaceMarine> getAllSpaceMarines() throws SQLException {
@@ -106,9 +107,11 @@ public class DatabaseHandler {
                 spaceMarine.setSaved();
                 spaceMarines.add(spaceMarine);
             }
-        }return spaceMarines;
+        }
+        return spaceMarines;
     }
-    public void deleteSpaceMarine(long id){
+
+    public void deleteSpaceMarine(long id) {
         try {
             Connection connection = connect();
             PreparedStatement statement = connection.prepareStatement(
@@ -116,14 +119,22 @@ public class DatabaseHandler {
             statement.setLong(1, id);
 
             int rowsAffected = statement.executeUpdate();
-            if (rowsAffected == 0){
+            if (rowsAffected == 0) {
                 throw new SQLException("Inserting space marine failed, no rows affected");
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    public void register(String login, String pwd) throws SQLException{
+    public void deleteSpaceMarine(Request request) throws SQLException {
+        HashSet<SpaceMarine> marineList = getAllSpaceMarines();
+        for (SpaceMarine marine : marineList) {
+            if (marine.getCreator().equals(request.getUser().getLogin()) && marine.getId() <= Long.parseLong(request.getArguments())) {
+                deleteSpaceMarine(marine.getId());
+            }
+        }
+    }
+    public void register(String login, String pwd) throws SQLException {
         Connection conn = connect();
         PreparedStatement statement = conn.prepareStatement(
                 "INSERT INTO users" +
@@ -140,26 +151,43 @@ public class DatabaseHandler {
         }
     }
 
-    public boolean checkIfUserExists(String login, String pwd){
+    public boolean checkIfUserExists(String login, String pwd) {
+        try {
+            Connection connection = connect();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE login = ? AND password = ?");
+            statement.setString(1, login);
+            statement.setString(2, pwd);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+        return false;
+    }
+
+    public void clearCollection(Request request) throws SQLException {
+        HashSet<SpaceMarine> marineList = getAllSpaceMarines();
+        for (SpaceMarine marine : marineList) {
+            if (marine.getCreator().equals(request.getUser().getLogin())) {
+                deleteSpaceMarine(marine.getId());
+            }
+        }
+    }
+
+    public boolean checkIfLoginExists(String login) {
         try {
             Connection connection = connect();
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE login = ?");
             statement.setString(1, login);
-
             ResultSet rs = statement.executeQuery();
-            if (rs.next()){
+            if (rs.next()) {
                 return true;
             }
-        } catch (SQLException sqle){
+        } catch (SQLException sqle) {
             sqle.printStackTrace();
-        }return false;
-    }
-    public void clearCollection(Request request) throws SQLException {
-        HashSet<SpaceMarine> marineList = getAllSpaceMarines();
-        for (SpaceMarine marine : marineList) {
-            if(marine.getCreator().equals(request.getUser().getLogin())) {
-                deleteSpaceMarine(marine.getId());
-            }
         }
+        return false;
     }
 }

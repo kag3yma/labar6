@@ -7,9 +7,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -43,6 +40,7 @@ public class CollectionHandler{
             reentrantLock.unlock();
         }
     }
+
     public static HashSet<Long> getArrayForId() {
         return setForId;
     }

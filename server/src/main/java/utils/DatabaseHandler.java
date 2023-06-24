@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Logger;
 import data.*;
 import exceptions.DatabaseException;
 import org.slf4j.LoggerFactory;
+import requests.Request;
 import utils.*;
 import java.sql.*;
 import java.time.LocalDate;
@@ -154,10 +155,12 @@ public class DatabaseHandler {
             sqle.printStackTrace();
         }return false;
     }
-    public void clearCollection() throws SQLException {
+    public void clearCollection(Request request) throws SQLException {
         HashSet<SpaceMarine> marineList = getAllSpaceMarines();
         for (SpaceMarine marine : marineList) {
-            deleteSpaceMarine(marine.getId());
+            if(marine.getCreator().equals(request.getUser().getLogin())) {
+                deleteSpaceMarine(marine.getId());
+            }
         }
     }
 }

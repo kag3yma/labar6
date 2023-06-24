@@ -1,5 +1,6 @@
 package commands;
 
+import data.SpaceMarine;
 import exceptions.ElementAmountException;
 import network.TCPServer;
 import requests.Request;
@@ -31,8 +32,10 @@ public class ClearCommand extends AbstractCommand {
     @Override
     public String execute(Request request) throws SQLException {
         if (argCheck(request.getArguments())) {
-            collectionHandler.clearCollection();
-            databaseHandler.clearCollection();
+            collectionHandler.getCollection()
+                    .removeIf(spaceMarine -> spaceMarine.getCreator().equals(request.getUser().getLogin()));
+            databaseHandler.clearCollection(request);
+
     }
         return "Collection cleared!";
     }
